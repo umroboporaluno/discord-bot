@@ -14,13 +14,13 @@ import javax.security.auth.login.LoginException;
 public class BotApplication {
 
     @Getter
-    private static BotApplication application = new BotApplication();
+    private static final BotApplication application = new BotApplication();
 
     @Getter
     private static JDA jda;
 
     @Getter
-    private String token = "MTA3ODc3OTMzNzkzMjgxNjQ0Ng.Ga8s0H.0DDVQZ0fduIaunuHaAgvbUgaJ-PF44trjFt-h8";
+    private final String token = "MTA3ODc3OTMzNzkzMjgxNjQ0Ng.G_VfE3.RwZ_golHvyhuvfQkJkbGFYQyAWs4y21JpwozkA";
 
     @Getter
     private final long discordId = 1078748863705383022L;
