@@ -60,7 +60,7 @@ public class CommandController extends ListenerAdapter {
 
                         File file = new File(resource.getFile());
 
-                        event.reply("**Horários dos bolsistas do LAR**").addFiles(AttachedFile.fromData(file)).queue();
+                        event.replyFiles(AttachedFile.fromData(file)).queue();
 
                     } catch (Exception e) {
                         e.printStackTrace();
