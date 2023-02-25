@@ -62,7 +62,7 @@ public class ButtonClickEvent extends ListenerAdapter {
 
         if (event.getButton().getId().equalsIgnoreCase("doubts-ura")) {
 
-            Category category = event.getJDA().getCategoryById(1078778731990089738L);
+            Category category = event.getJDA().getCategoryById(1078900379279962232L);
 
             EnumSet<Permission> permissions = EnumSet.of(Permission.VIEW_CHANNEL, Permission.MESSAGE_SEND);
 
@@ -84,7 +84,7 @@ public class ButtonClickEvent extends ListenerAdapter {
 
         } else if (event.getButton().getId().equalsIgnoreCase("doubts-hardware")) {
 
-            Category category = event.getJDA().getCategoryById(1078778731990089738L);
+            Category category = event.getJDA().getCategoryById(1078900379279962232L);
 
             EnumSet<Permission> permissions = EnumSet.of(Permission.VIEW_CHANNEL, Permission.MESSAGE_SEND);
 
@@ -106,7 +106,7 @@ public class ButtonClickEvent extends ListenerAdapter {
 
         } else if (event.getButton().getId().equalsIgnoreCase("doubts-software")) {
 
-            Category category = event.getJDA().getCategoryById(1078778731990089738L);
+            Category category = event.getJDA().getCategoryById(1078900379279962232L);
 
             EnumSet<Permission> permissions = EnumSet.of(Permission.VIEW_CHANNEL, Permission.MESSAGE_SEND);
 
@@ -128,7 +128,7 @@ public class ButtonClickEvent extends ListenerAdapter {
 
         } else if (event.getButton().getId().equalsIgnoreCase( "doubts-horario")) {
 
-            Category category = event.getJDA().getCategoryById(1078778731990089738L);
+            Category category = event.getJDA().getCategoryById(1078900379279962232L);
 
             EnumSet<Permission> permissions = EnumSet.of(Permission.VIEW_CHANNEL, Permission.MESSAGE_SEND);
 

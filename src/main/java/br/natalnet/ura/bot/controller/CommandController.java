@@ -8,9 +8,15 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
+import net.dv8tion.jda.api.utils.AttachedFile;
+import net.dv8tion.jda.api.utils.FileUpload;
 import okhttp3.Cookie;
 
 import java.awt.*;
+import java.io.File;
+import java.io.InputStream;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,7 +36,36 @@ public class CommandController extends ListenerAdapter {
 
             case "horarios" -> {
 
-                event.reply("Nenhum horário ainda foi adicionado no sistema (NullPointerException)").queue();
+                ClassLoader loader = getClass().getClassLoader();
+
+                /*
+                InputStream stream = loader.getResourceAsStream("horario.png");
+
+                if (stream == null) {
+                    event.reply("Ops! O horário dos bolsistas não foi encontrado.").queue();
+                } else {
+                    event.reply("Arquivo??? (" + stream + ")").queue();
+                }
+                 */
+
+                URL resource = loader.getResource("horario.png");
+
+                if (resource == null) {
+
+                    event.reply("Ops! O horário dos bolsistas não foi encontrado (IllegalArgumentException)").queue();
+
+                } else {
+
+                    try {
+
+                        File file = new File(resource.getFile());
+
+                        event.reply("**Horários dos bolsistas do LAR**").addFiles(AttachedFile.fromData(file)).queue();
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         }
     }
