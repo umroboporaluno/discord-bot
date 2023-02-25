@@ -1,6 +1,8 @@
 package br.natalnet;
 
+import br.natalnet.event.ButtonClickEvent;
 import br.natalnet.controller.CommandController;
+import br.natalnet.listener.DoubtsEmbedMessageListener;
 import br.natalnet.listener.RulesEmbedMessageListener;
 import lombok.Getter;
 import net.dv8tion.jda.api.JDA;
@@ -30,9 +32,9 @@ public class BotApplication {
 
         jda = JDABuilder.createDefault(getApplication().getToken()).setStatus(OnlineStatus.ONLINE)
                 .setActivity(Activity.streaming("Um robô por aluno", "https://natalnet.github.io/ura/"))
-                .enableIntents(GatewayIntent.GUILD_MEMBERS)
+                .enableIntents(GatewayIntent.GUILD_MEMBERS, GatewayIntent.MESSAGE_CONTENT)
                 .enableCache(CacheFlag.MEMBER_OVERRIDES)
-                .addEventListeners(new CommandController(), new RulesEmbedMessageListener())
+                .addEventListeners(new CommandController(), new ButtonClickEvent(), new RulesEmbedMessageListener(), new DoubtsEmbedMessageListener())
                 .build();
     }
 }
