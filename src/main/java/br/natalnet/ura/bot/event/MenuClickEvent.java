@@ -1,4 +1,4 @@
-package br.natalnet.event;
+package br.natalnet.ura.bot.event;
 
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Guild;

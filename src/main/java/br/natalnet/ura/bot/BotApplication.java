@@ -1,10 +1,10 @@
-package br.natalnet;
+package br.natalnet.ura.bot;
 
-import br.natalnet.event.ButtonClickEvent;
-import br.natalnet.controller.CommandController;
-import br.natalnet.event.MenuClickEvent;
-import br.natalnet.listener.DoubtsEmbedMessageListener;
-import br.natalnet.listener.RulesEmbedMessageListener;
+import br.natalnet.ura.bot.event.ButtonClickEvent;
+import br.natalnet.ura.bot.controller.CommandController;
+import br.natalnet.ura.bot.event.MenuClickEvent;
+import br.natalnet.ura.bot.listener.DoubtsEmbedMessageListener;
+import br.natalnet.ura.bot.listener.RulesEmbedMessageListener;
 import lombok.Getter;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;

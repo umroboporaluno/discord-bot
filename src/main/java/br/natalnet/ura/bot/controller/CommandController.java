@@ -1,4 +1,4 @@
-package br.natalnet.controller;
+package br.natalnet.ura.bot.controller;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;

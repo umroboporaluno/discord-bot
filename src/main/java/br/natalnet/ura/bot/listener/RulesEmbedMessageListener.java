@@ -1,6 +1,6 @@
-package br.natalnet.listener;
+package br.natalnet.ura.bot.listener;
 
-import br.natalnet.BotApplication;
+import br.natalnet.ura.bot.BotApplication;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
