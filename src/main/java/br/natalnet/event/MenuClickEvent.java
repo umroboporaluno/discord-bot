@@ -77,7 +77,7 @@ public class MenuClickEvent extends ListenerAdapter {
                     if (textChannel == null)
                         return;
 
-                    textChannel.sendMessage("**[TICKET]** - Log do canal ``" + textChannel.getName() + "``.").addFiles(AttachedFile.fromData(file)).queue(success -> {
+                    textChannel.sendMessage("**[TICKET]** - Log do canal ``" + event.getChannel().getName() + "``.").addFiles(AttachedFile.fromData(file)).queue(success -> {
 
                         event.getChannel().delete().queue();
 
