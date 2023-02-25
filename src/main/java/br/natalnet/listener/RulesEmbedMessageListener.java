@@ -22,7 +22,7 @@ public class RulesEmbedMessageListener extends ListenerAdapter {
         if (event.getAuthor().isBot() || event.isWebhookMessage())
             return;
 
-        if (!event.getMessage().getContentRaw().toLowerCase().startsWith("/regras"))
+        if (!event.getMessage().getContentRaw().toLowerCase().startsWith("!regras"))
             return;
 
         if (event.getMember() == null)
