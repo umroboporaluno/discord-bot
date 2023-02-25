@@ -2,6 +2,7 @@ package br.natalnet;
 
 import br.natalnet.event.ButtonClickEvent;
 import br.natalnet.controller.CommandController;
+import br.natalnet.event.MenuClickEvent;
 import br.natalnet.listener.DoubtsEmbedMessageListener;
 import br.natalnet.listener.RulesEmbedMessageListener;
 import lombok.Getter;
@@ -34,7 +35,7 @@ public class BotApplication {
                 .setActivity(Activity.streaming("Um robô por aluno", "https://natalnet.github.io/ura/"))
                 .enableIntents(GatewayIntent.GUILD_MEMBERS, GatewayIntent.MESSAGE_CONTENT)
                 .enableCache(CacheFlag.MEMBER_OVERRIDES)
-                .addEventListeners(new CommandController(), new ButtonClickEvent(), new RulesEmbedMessageListener(), new DoubtsEmbedMessageListener())
+                .addEventListeners(new CommandController(), new ButtonClickEvent(), new MenuClickEvent(), new RulesEmbedMessageListener(), new DoubtsEmbedMessageListener())
                 .build();
     }
 }
