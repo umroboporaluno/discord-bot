@@ -77,8 +77,15 @@ public class MenuClickEvent extends ListenerAdapter {
                     if (textChannel == null)
                         return;
 
-                    textChannel.sendFiles(AttachedFile.fromData(file)).queue(success -> {
+                    textChannel.sendMessage("**[TICKET]** - Log do canal ``" + textChannel.getName() + "``.").addFiles(AttachedFile.fromData(file)).queue(success -> {
+
                         event.getChannel().delete().queue();
+
+                        if (file.delete()) {
+                            System.out.println("Deleted log file '" + file.getName() + "'");
+                        } else {
+                            System.out.println("Failed to delete log file '" + file.getName() + "'");
+                        }
                     });
 
                 } catch (IOException e) {
