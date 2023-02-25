@@ -178,7 +178,6 @@ public class ButtonClickEvent extends ListenerAdapter {
                             .setRequiredRange(1, 1)
                             .addOption("Reabrir o ticket", "menu-reopen")
                             .addOption("Deletar o ticket", "menu-delete")
-                            .addOption("Salvar o ticket", "menu-salve")
                             .build())
                     .queue();
         }
