@@ -1,18 +1,17 @@
-package br.natalnet.command;
+package br.natalnet.listener;
 
 import br.natalnet.BotApplication;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
-import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
 
-public class RulesCommand extends ListenerAdapter {
+public class RulesEmbedMessageListener extends ListenerAdapter {
 
     @Override
-    public void onMessageReceived(@NotNull MessageReceivedEvent event) {
+    public void onMessageReceived(MessageReceivedEvent event) {
 
         if (!event.isFromGuild())
             return;
@@ -32,18 +31,17 @@ public class RulesCommand extends ListenerAdapter {
         if (!event.getMember().getPermissions().contains(Permission.ADMINISTRATOR))
             return;
 
-        String rules = "1. Você deve ter vínculo ativo com o projeto do URA" +
-                "\n" +
-                "2. <rule-2>" +
-                "\n" +
-                "3. <rule-3>";
+        String rules = """
+                1. Você deve ter vínculo ativo com o projeto do URA
+                2. <rule-2>
+                3. <rule-3>""";
 
         event.getChannel().sendMessageEmbeds(new EmbedBuilder()
-                .setAuthor("Regras")
-                .setDescription(rules)
-                .setFooter("Esteja ciente que qualquer descumprimento das regras acima resulta em punição.")
-                .setColor(Color.BLUE)
-                .build())
+                        .setAuthor("Regras")
+                        .setDescription(rules)
+                        .setFooter("Esteja ciente que qualquer descumprimento das regras acima resulta em punição.")
+                        .setColor(Color.BLUE)
+                        .build())
                 .queue();
     }
 }

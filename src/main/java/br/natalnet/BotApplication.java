@@ -1,6 +1,7 @@
 package br.natalnet;
 
-import br.natalnet.command.RulesCommand;
+import br.natalnet.controller.CommandController;
+import br.natalnet.listener.RulesEmbedMessageListener;
 import lombok.Getter;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
@@ -26,11 +27,12 @@ public class BotApplication {
     private final long discordId = 1078748863705383022L;
 
     public static void main(String[] args) throws LoginException {
+
         jda = JDABuilder.createDefault(getApplication().getToken()).setStatus(OnlineStatus.ONLINE)
                 .setActivity(Activity.streaming("Um robô por aluno", "https://natalnet.github.io/ura/"))
                 .enableIntents(GatewayIntent.GUILD_MEMBERS)
                 .enableCache(CacheFlag.MEMBER_OVERRIDES)
-                .addEventListeners(new RulesCommand())
+                .addEventListeners(new CommandController(), new RulesEmbedMessageListener())
                 .build();
     }
 }
