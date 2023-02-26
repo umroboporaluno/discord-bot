@@ -30,12 +30,11 @@ public class CommandController extends ListenerAdapter {
 
         switch (command) {
 
-            case "version": {
+            case "version" -> {
                 event.reply("O bot está utilizando a versão 5.0.0-beta.4 JDA (prod-master-ura-bot)").queue();
-                break;
             }
 
-            case "horarios": {
+            case "horarios" -> {
 
                 ClassLoader loader = getClass().getClassLoader();
 
@@ -68,10 +67,9 @@ public class CommandController extends ListenerAdapter {
                     }
                 }
 
-                break;
             }
 
-            case "clear": {
+            case "clear" -> {
 
                 if (event.getMember() == null)
                     return;
@@ -85,8 +83,6 @@ public class CommandController extends ListenerAdapter {
 
                 event.reply("Você limpou 100 mensagens deste chat.").setEphemeral(true).queue();
             }
-
-            break;
         }
     }
 
