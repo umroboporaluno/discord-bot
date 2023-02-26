@@ -53,4 +53,8 @@ jar {
             it.isDirectory() ? it : zipTree(it)
         }
     }
+
+    manifest {
+        attributes('Main-Class' : 'br.natalnet.ura.bot.BotApplication')
+    }
 }
