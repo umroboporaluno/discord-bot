@@ -2,6 +2,7 @@ package br.natalnet.ura.bot.controller;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.guild.GuildReadyEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -67,6 +68,21 @@ public class CommandController extends ListenerAdapter {
                     }
                 }
             }
+
+            case "clear" -> {
+
+                if (event.getMember() == null)
+                    return;
+
+                if (!event.getMember().getPermissions().contains(Permission.ADMINISTRATOR))
+                    event.reply("Você não tem permissão para fazer isso.").queue();
+
+                event.getChannel().getHistory().retrievePast(100).queue(messages -> {
+                    messages.forEach(message -> message.delete().submit());
+                });
+
+                event.reply("Você limpou 100 mensagens deste chat.").setEphemeral(true).queue();
+            }
         }
     }
 
@@ -76,6 +92,7 @@ public class CommandController extends ListenerAdapter {
 
         dataStore.add(Commands.slash("version", "Visualiza a versão atual do BOT."));
         dataStore.add(Commands.slash("horarios", "Visualiza os horários do LAR disponíveis para uso."));
+        dataStore.add(Commands.slash("clear", "Limpa as últimas 100 mensagens em qualquer chat").setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.ADMINISTRATOR)));
 
         event.getGuild().updateCommands().addCommands(dataStore).queue();
     }
