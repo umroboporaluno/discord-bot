@@ -16,7 +16,7 @@ public class RulesEmbedMessageListener extends ListenerAdapter {
         if (!event.isFromGuild())
             return;
 
-        if (event.getGuild().getIdLong() != BotApplication.getApplication().getDiscordId())
+        if (event.getGuild().getIdLong() != BotApplication.getSystem().getDiscordId())
             return;
 
         if (event.getAuthor().isBot() || event.isWebhookMessage())
