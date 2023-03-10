@@ -3,8 +3,6 @@ package br.natalnet.ura.bot;
 import br.natalnet.ura.bot.database.Redis;
 import lombok.Getter;
 
-import javax.security.auth.login.LoginException;
-
 public class BotApplication {
 
     @Getter

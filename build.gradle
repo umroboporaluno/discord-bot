@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id "com.github.johnrengelman.shadow" version "7.1.2"
 }
 
 group 'br.natalnet'
@@ -61,6 +62,16 @@ dependencies {
 
 test {
     useJUnitPlatform()
+}
+
+shadowJar {
+    configurations = [project.configurations.compileClasspath]
+
+    dependencies {
+        include 'com.googlecode.json-simple:json-simple:1.1.1'
+        include 'redis.clients.jedis:jedis:2.9.0'
+        include 'com.google.code.gson:gson:2.9.0'
+    }
 }
 
 jar {
