@@ -35,7 +35,7 @@ public class CommandController extends ListenerAdapter {
                 break;
             }
 
-            case "horarios": {
+            case "horários": {
 
                 ClassLoader loader = getClass().getClassLoader();
 
@@ -95,7 +95,7 @@ public class CommandController extends ListenerAdapter {
         List<CommandData> dataStore = new ArrayList<>();
 
         dataStore.add(Commands.slash("version", "Visualiza a versão atual do BOT."));
-        dataStore.add(Commands.slash("horarios", "Visualiza os horários do LAR disponíveis para uso."));
+        dataStore.add(Commands.slash("horários", "Visualiza os horários do LAR disponíveis para uso."));
         dataStore.add(Commands.slash("clear", "Limpa as últimas 100 mensagens em qualquer chat").setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.ADMINISTRATOR)));
 
         event.getGuild().updateCommands().addCommands(dataStore).queue();
