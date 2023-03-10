@@ -1,5 +1,6 @@
 package br.natalnet.ura.bot;
 
+import br.natalnet.ura.bot.database.Redis;
 import br.natalnet.ura.bot.event.ButtonClickEvent;
 import br.natalnet.ura.bot.controller.CommandController;
 import br.natalnet.ura.bot.event.MenuClickEvent;
@@ -11,6 +12,8 @@ import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.requests.GatewayIntent;
+import net.dv8tion.jda.api.sharding.DefaultShardManagerBuilder;
+import net.dv8tion.jda.api.sharding.ShardManager;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
 
 import javax.security.auth.login.LoginException;
@@ -18,24 +21,13 @@ import javax.security.auth.login.LoginException;
 public class BotApplication {
 
     @Getter
-    private static final BotApplication application = new BotApplication();
+    private static BotSystem system;
 
     @Getter
-    private static JDA jda;
-
-    @Getter
-    private final String token = "MTA3ODc3OTMzNzkzMjgxNjQ0Ng.G_VfE3.RwZ_golHvyhuvfQkJkbGFYQyAWs4y21JpwozkA";
-
-    @Getter
-    private final long discordId = 1078748863705383022L;
+    private static Redis redis;
 
     public static void main(String[] args) throws LoginException {
-
-        jda = JDABuilder.createDefault(getApplication().getToken()).setStatus(OnlineStatus.ONLINE)
-                .setActivity(Activity.streaming("Um robô por aluno", "https://natalnet.github.io/ura/"))
-                .enableIntents(GatewayIntent.GUILD_MEMBERS, GatewayIntent.MESSAGE_CONTENT)
-                .enableCache(CacheFlag.MEMBER_OVERRIDES)
-                .addEventListeners(new CommandController(), new ButtonClickEvent(), new MenuClickEvent(), new RulesEmbedMessageListener(), new DoubtsEmbedMessageListener())
-                .build();
+        system = new BotSystem();
+        redis = new Redis();
     }
 }
