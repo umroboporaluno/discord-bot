@@ -6,6 +6,7 @@ import br.natalnet.ura.bot.event.MenuClickEvent;
 import br.natalnet.ura.bot.listener.DoubtsEmbedMessageListener;
 import br.natalnet.ura.bot.listener.RulesEmbedMessageListener;
 import lombok.Getter;
+import lombok.Setter;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.requests.GatewayIntent;
@@ -23,6 +24,9 @@ public class BotSystem {
     private final String token = "MTA3ODc3OTMzNzkzMjgxNjQ0Ng.G_VfE3.RwZ_golHvyhuvfQkJkbGFYQyAWs4y21JpwozkA";
 
     private final long discordId = 1078748863705383022L;
+
+    @Setter
+    private int ticks;
 
     public BotSystem() {
         builder = DefaultShardManagerBuilder.createDefault(getToken());
