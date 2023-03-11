@@ -1,5 +1,9 @@
 package br.natalnet.ura.bot.controller;
 
+import br.natalnet.ura.bot.BotApplication;
+import br.natalnet.ura.bot.entity.Member;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Message;
@@ -7,11 +11,15 @@ import net.dv8tion.jda.api.events.guild.GuildReadyEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions;
+import net.dv8tion.jda.api.interactions.commands.OptionMapping;
+import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
+import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.dv8tion.jda.api.utils.AttachedFile;
 import net.dv8tion.jda.api.utils.FileUpload;
 import okhttp3.Cookie;
+import redis.clients.jedis.Jedis;
 
 import java.awt.*;
 import java.io.File;
@@ -20,6 +28,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class CommandController extends ListenerAdapter {
 
@@ -84,9 +93,55 @@ public class CommandController extends ListenerAdapter {
                 });
 
                 event.reply("Você limpou 100 mensagens deste chat.").setEphemeral(true).queue();
+
+                break;
             }
 
-            break;
+            case "cadastrar": {
+
+                OptionMapping option = event.getOption("nome");
+
+                String name, role, rfid;
+
+                Gson gson = new GsonBuilder().create();
+
+                if (option == null) {
+                    event.reply("Nome inválido").setEphemeral(true).queue();
+                    return;
+                }
+
+                name = option.getAsString();
+
+                option = event.getOption("cargo");
+
+                if (option == null) {
+                    event.reply("Cargo inválido").setEphemeral(true).queue();
+                    return;
+                }
+
+                role = option.getAsString();
+
+                option = event.getOption("rfid");
+
+                if (option == null) {
+                    event.reply("RFiD inválido").setEphemeral(true).queue();
+                    return;
+                }
+
+                rfid = option.getAsString();
+
+                Member member = new Member(UUID.randomUUID(), name, role, rfid);
+
+                System.out.println(member.getUuid());
+
+                try (Jedis jedis = BotApplication.getRedis().getJedisPool().getResource()) {
+                    jedis.setex(member.getUuid().toString(), 300, gson.toJson(member));
+
+                    jedis.publish("cadastro", gson.toJson(member));
+                }
+
+                event.reply("Você cadastrou " + member.getName() + " com sucesso (UUID: " + member.getUuid() + ").").queue();
+            }
         }
     }
 
@@ -96,7 +151,14 @@ public class CommandController extends ListenerAdapter {
 
         dataStore.add(Commands.slash("version", "Visualiza a versão atual do BOT."));
         dataStore.add(Commands.slash("horários", "Visualiza os horários do LAR disponíveis para uso."));
-        dataStore.add(Commands.slash("clear", "Limpa as últimas 100 mensagens em qualquer chat").setDefaultPermissions(DefaultMemberPermissions.enabledFor(Permission.ADMINISTRATOR)));
+        dataStore.add(Commands.slash("clear", "Limpa as últimas 100 mensagens em qualquer chat."));
+        dataStore.add(Commands.slash("carros", "Visualiza os carros salvos no banco de dados."));
+
+        OptionData arg1 = new OptionData(OptionType.STRING, "nome", "Nome de quem você deseja cadastrar", true);
+        OptionData arg2 = new OptionData(OptionType.STRING, "cargo", "Cargo de quem você deseja cadastrar", true);
+        OptionData arg3 = new OptionData(OptionType.STRING, "rfid", "ID RFiD de quem você deseja cadastrar", true);
+
+        dataStore.add(Commands.slash("cadastrar", "Cadastre uma pessoa para acessar o LAR.").addOptions(arg1, arg2, arg3));
 
         event.getGuild().updateCommands().addCommands(dataStore).queue();
     }
