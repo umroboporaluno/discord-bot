@@ -36,11 +36,18 @@ public class BotApplication {
             public void run() {
                 getSystem().setTicks(getSystem().getTicks() + 1);
 
+                System.out.println(getSystem().getTicks());
+
                 redisPubSub = new RedisPubSub(new RedisPubSubController(), "cadastro");
                 redisPubSub.run();
 
-                mqtt.publish("keepalive", String.valueOf(getSystem().getTicks()));
+                mqtt.publish("keepalive", "ovo");
 
+                try {
+                    mqtt.getController().handleSubscribe();
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
             }
 
         }, 0, 1);

@@ -15,6 +15,8 @@ public class RedisPubSubController extends JedisPubSub {
         if (channel.equals("cadastro")) {
 
             Member member = gson.fromJson(message, Member.class);
+
+            System.out.println(member.toString());
         }
     }
 }

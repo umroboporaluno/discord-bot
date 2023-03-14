@@ -24,7 +24,6 @@ public class MQTT {
         client.toBlocking().connectWith().keepAlive(5).send();
 
         controller = new MQTTPubSubController();
-        controller.handleSubscribe();
     }
 
     public void publish(String topic, String message) {
