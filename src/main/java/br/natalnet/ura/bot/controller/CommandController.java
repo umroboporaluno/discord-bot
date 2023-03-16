@@ -1,6 +1,7 @@
 package br.natalnet.ura.bot.controller;
 
 import br.natalnet.ura.bot.BotApplication;
+import br.natalnet.ura.bot.BotSystem;
 import br.natalnet.ura.bot.entity.Member;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -141,6 +142,39 @@ public class CommandController extends ListenerAdapter {
                 }
 
                 event.reply("Você cadastrou " + member.getName() + " com sucesso (UUID: " + member.getUuid() + ").").queue();
+
+                break;
+            }
+
+            case "publish": {
+
+                OptionMapping option = event.getOption("tópico");
+
+                String topic, payload;
+
+                Gson gson = new GsonBuilder().create();
+
+                if (option == null) {
+                    event.reply("Tópico inválido").setEphemeral(true).queue();
+                    return;
+                }
+
+                topic = option.getAsString();
+
+                option = event.getOption("payload");
+
+                if (option == null) {
+                    event.reply("Payload inválido").setEphemeral(true).queue();
+                    return;
+                }
+
+                payload = option.getAsString();
+
+                BotApplication.getMqtt().publish(topic, payload.getBytes(), 0, false);
+
+                event.reply("Você publicou a mensagem " + gson.toJson(payload) + " no tópico " + topic + " (MQTT URI: " + BotApplication.getMqtt().getServerUri() + ").").queue();
+
+                break;
             }
         }
     }
@@ -159,6 +193,11 @@ public class CommandController extends ListenerAdapter {
         OptionData arg3 = new OptionData(OptionType.STRING, "rfid", "ID RFiD de quem você deseja cadastrar", true);
 
         dataStore.add(Commands.slash("cadastrar", "Cadastre uma pessoa para acessar o LAR.").addOptions(arg1, arg2, arg3));
+
+        arg1 = new OptionData(OptionType.STRING, "tópico",  "Tópico do MQTT que você deseja enviar.", true);
+        arg2 = new OptionData(OptionType.STRING, "payload", "Payload do MQTT que você deseja enviar.", true);
+
+        dataStore.add(Commands.slash("publish", "Envie mensagens para o MQTT do LAR.").addOptions(arg1, arg2));
 
         event.getGuild().updateCommands().addCommands(dataStore).queue();
     }
