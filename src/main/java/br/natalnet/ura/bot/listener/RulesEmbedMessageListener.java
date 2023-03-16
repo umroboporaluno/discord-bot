@@ -31,7 +31,7 @@ public class RulesEmbedMessageListener extends ListenerAdapter {
         if (!event.getMember().getPermissions().contains(Permission.ADMINISTRATOR))
             return;
 
-        String rules = "1. Você deve ter vínculo ativo com o projeto do URA \n2. <rule-2> \n3. <rule-3>";
+        String rules = "1. Você deve ter vínculo ativo com o projeto do URA; \n2. Divulgação de informações falsas; \n3. Divulgação de conteúdo inadequado; \n4. Brincadeiras ou comentários ofensivos.";
 
         event.getChannel().sendMessageEmbeds(new EmbedBuilder()
                         .setAuthor("Regras")
