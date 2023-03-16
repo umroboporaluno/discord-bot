@@ -22,29 +22,26 @@ public class BotApplication {
 
     private static RedisPubSub redisPubSub;
 
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) {
 
         system = new BotSystem();
         redis = new Redis();
+
+        redisPubSub = new RedisPubSub(new RedisPubSubController(), "cadastro");
 
         mqtt = new MQTT("tcp://127.0.0.1:1883");
         mqtt.connect();
 
         Timer timer = new Timer();
 
-        timer.schedule(new TimerTask() {
+        TimerTask task = new TimerTask() {
 
             @Override
             public void run() {
-
-                getSystem().setTicks(getSystem().getTicks() + 1);
-
-                System.out.println(getSystem().getTicks());
-
-                redisPubSub = new RedisPubSub(new RedisPubSubController(), "cadastro");
                 redisPubSub.run();
-
             }
-        }, 0, 1);
+        };
+
+        timer.schedule(task, 1, 1);
     }
 }
