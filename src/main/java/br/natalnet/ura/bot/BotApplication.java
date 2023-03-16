@@ -26,7 +26,9 @@ public class BotApplication {
 
         system = new BotSystem();
         redis = new Redis();
-        mqtt = new MQTT();
+
+        mqtt = new MQTT("tcp://127.0.0.1:1883");
+        mqtt.connect();
 
         Timer timer = new Timer();
 
@@ -34,6 +36,7 @@ public class BotApplication {
 
             @Override
             public void run() {
+
                 getSystem().setTicks(getSystem().getTicks() + 1);
 
                 System.out.println(getSystem().getTicks());
@@ -41,15 +44,7 @@ public class BotApplication {
                 redisPubSub = new RedisPubSub(new RedisPubSubController(), "cadastro");
                 redisPubSub.run();
 
-                mqtt.publish("keepalive", "ovo");
-
-                try {
-                    mqtt.getController().handleSubscribe();
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
             }
-
         }, 0, 1);
     }
 }
