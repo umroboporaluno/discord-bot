@@ -42,36 +42,9 @@ public class CommandController extends ListenerAdapter {
 
             case "horários": {
 
-                ClassLoader loader = getClass().getClassLoader();
+                File file = new File(File.separator + System.getProperty("user.home") + File.separator + "bot" + File.separator, "horarios.jpeg");
 
-                /*
-                InputStream stream = loader.getResourceAsStream("horario.png");
-
-                if (stream == null) {
-                    event.reply("Ops! O horário dos bolsistas não foi encontrado.").queue();
-                } else {
-                    event.reply("Arquivo??? (" + stream + ")").queue();
-                }
-                 */
-
-                URL resource = loader.getResource("horario.jpeg");
-
-                if (resource == null) {
-
-                    event.reply("Ops! O horário dos bolsistas não foi encontrado (IllegalArgumentException)").queue();
-
-                } else {
-
-                    try {
-
-                        File file = new File(resource.getFile());
-
-                        event.replyFiles(AttachedFile.fromData(file)).queue();
-
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
+                event.replyFiles(AttachedFile.fromData(file)).queue();
 
                 break;
             }

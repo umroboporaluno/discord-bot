@@ -135,16 +135,7 @@ public class ButtonClickEvent extends ListenerAdapter {
 
             ClassLoader loader = getClass().getClassLoader();
 
-            URL resource = loader.getResource("horario.jpeg");
-
-            File file;
-
-            if (resource == null) {
-                event.reply("Ops! O horário dos bolsistas não foi encontrado (IllegalArgumentException)").queue();
-                return;
-            }
-
-            file = new File(resource.getFile());
+            File file = new File(File.separator + System.getProperty("user.home") + File.separator + "bot" + File.separator, "horarios.jpeg");
 
             guild.createTextChannel("agendamento: " + event.getMember().getUser().getName(), category)
                     .setTopic(event.getMember().getId())
