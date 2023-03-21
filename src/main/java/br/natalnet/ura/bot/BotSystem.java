@@ -23,7 +23,7 @@ public class BotSystem {
 
     private final String token = "MTA3ODc3OTMzNzkzMjgxNjQ0Ng.G_VfE3.RwZ_golHvyhuvfQkJkbGFYQyAWs4y21JpwozkA";
 
-    private final long discordId = 1078748863705383022L;
+    private final long discordId = 630862350827782144L;
 
     @Setter
     private int ticks;
