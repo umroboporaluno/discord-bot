@@ -18,12 +18,6 @@ import java.util.concurrent.TimeUnit;
 
 public class ButtonClickEvent extends ListenerAdapter {
 
-    /*
-    Voluntário role ID -> 1078748863705383023
-    Hardware leader role ID -> 1078759257098432603
-    Bolsista role ID -> 1078852871807836261
-     */
-
     @Override
     public void onButtonInteraction(ButtonInteractionEvent event) {
 
@@ -62,75 +56,77 @@ public class ButtonClickEvent extends ListenerAdapter {
         if (cancel[0])
             return;
 
-        if (event.getButton().getId().equalsIgnoreCase("doubts-ura")) {
+        if (event.getButton().getId().equalsIgnoreCase("doubts-course")) {
 
-            Category category = event.getJDA().getCategoryById(1078900379279962232L);
+            Category category = event.getJDA().getCategoryById(1087806779938836563L);
 
             EnumSet<Permission> permissions = EnumSet.of(Permission.VIEW_CHANNEL, Permission.MESSAGE_SEND);
 
-            guild.createTextChannel("dúvida-ura: " + event.getMember().getUser().getName(), category)
+            guild.createTextChannel("dúvida-curso: " + event.getMember().getUser().getName(), category)
                     .setTopic(event.getMember().getId())
                     .addMemberPermissionOverride(event.getMember().getIdLong(), permissions, null)
                     .addPermissionOverride(guild.getPublicRole(), null, permissions)
-                    .addPermissionOverride(guild.getRoleById(1078748863705383023L), permissions, null)
+                    .addPermissionOverride(guild.getRoleById(1087424755902189678L), permissions, null)
                     .queue(textChannel -> {
                         textChannel.sendMessageEmbeds(new EmbedBuilder()
-                                .setDescription("Olá, seja bem-vindo(a) ao ticket de **dúvidas sobre o URA**, aguarde dentro de alguns"
-                                        + " instantes que algum voluntário irá ajudá-lo(a).")
+                                .setDescription("Olá, seja bem-vindo(a) ao ticket de **dúvidas sobre o curso**, aguarde dentro de alguns"
+                                        + " instantes que algum membro da área de cursos irá ajudá-lo(a).")
                                 .setColor(Color.BLUE).build()).setActionRow(Button.danger("close-doubt", "❌ Fechar ticket")).addContent(event.getMember().getAsMention()).queue();
 
                         event.reply("Sua dúvida sobre o URA foi aberta em " + textChannel.getAsMention() + "!").setEphemeral(true).queue();
 
-                        textChannel.sendMessage("<@1078748863705383023>").queue(message -> message.delete().queueAfter(2, TimeUnit.SECONDS));
+                        textChannel.sendMessage("<@&1087424755902189678>").queue(message -> message.delete().queueAfter(2, TimeUnit.SECONDS));
                     });
 
-        } else if (event.getButton().getId().equalsIgnoreCase("doubts-hardware")) {
+        } else if (event.getButton().getId().equalsIgnoreCase("doubts-engineer")) {
 
-            Category category = event.getJDA().getCategoryById(1078900379279962232L);
+            Category category = event.getJDA().getCategoryById(1087806779938836563L);
 
             EnumSet<Permission> permissions = EnumSet.of(Permission.VIEW_CHANNEL, Permission.MESSAGE_SEND);
 
-            guild.createTextChannel("dúvida-hardware: " + event.getMember().getUser().getName(), category)
+            guild.createTextChannel("dúvida-engenharia: " + event.getMember().getUser().getName(), category)
                     .setTopic(event.getMember().getId())
                     .addMemberPermissionOverride(event.getMember().getIdLong(), permissions, null)
                     .addPermissionOverride(guild.getPublicRole(), null, permissions)
-                    .addPermissionOverride(guild.getRoleById(1078759257098432603L), permissions, null)
+                    .addPermissionOverride(guild.getRoleById(1087423801479942264L), permissions, null)
+                    .addPermissionOverride(guild.getRoleById(1087424242255134820L), permissions, null)
                     .queue(textChannel -> {
                         textChannel.sendMessageEmbeds(new EmbedBuilder()
-                                .setDescription("Olá, seja bem-vindo(a) ao ticket de **dúvidas sobre o hardware**, aguarde dentro de alguns"
-                                        + " instantes que algum membro da área de hardware irá ajudá-lo(a).")
+                                .setDescription("Olá, seja bem-vindo(a) ao ticket de **dúvidas sobre as engenharias**, aguarde dentro de alguns"
+                                        + " instantes que algum membro da área das engenharias irá ajudá-lo(a).")
                                 .setColor(Color.BLUE).build()).setActionRow(Button.danger("close-doubt", "❌ Fechar ticket")).addContent(event.getMember().getAsMention()).queue();
 
                         event.reply("Sua dúvida sobre o hardware foi aberta em " + textChannel.getAsMention() + "!").setEphemeral(true).queue();
 
-                        textChannel.sendMessage("<@1078759257098432603>").queue(message -> message.delete().queueAfter(2, TimeUnit.SECONDS));
+                        textChannel.sendMessage("<@&1087423801479942264>").queue(message -> message.delete().queueAfter(2, TimeUnit.SECONDS));
+                        textChannel.sendMessage("<@&1087424242255134820>").queue(message -> message.delete().queueAfter(2, TimeUnit.SECONDS));
                     });
 
-        } else if (event.getButton().getId().equalsIgnoreCase("doubts-software")) {
+        } else if (event.getButton().getId().equalsIgnoreCase("doubts-marketing")) {
 
-            Category category = event.getJDA().getCategoryById(1078900379279962232L);
+            Category category = event.getJDA().getCategoryById(1087806779938836563L);
 
             EnumSet<Permission> permissions = EnumSet.of(Permission.VIEW_CHANNEL, Permission.MESSAGE_SEND);
 
-            guild.createTextChannel("dúvida-hardware: " + event.getMember().getUser().getName(), category)
+            guild.createTextChannel("dúvida-marketing: " + event.getMember().getUser().getName(), category)
                     .setTopic(event.getMember().getId())
                     .addMemberPermissionOverride(event.getMember().getIdLong(), permissions, null)
                     .addPermissionOverride(guild.getPublicRole(), null, permissions)
-                    .addPermissionOverride(guild.getRoleById(1078760557202657451L), permissions, null)
+                    .addPermissionOverride(guild.getRoleById(1087424463869591642L), permissions, null)
                     .queue(textChannel -> {
                         textChannel.sendMessageEmbeds(new EmbedBuilder()
-                                .setDescription("Olá, seja bem-vindo(a) ao ticket de **dúvidas sobre o software**, aguarde dentro de alguns"
-                                        + " instantes que algum membro da área de software irá ajudá-lo(a).")
+                                .setDescription("Olá, seja bem-vindo(a) ao ticket de **dúvidas sobre o marketing**, aguarde dentro de alguns"
+                                        + " instantes que algum membro da área de marketing irá ajudá-lo(a).")
                                 .setColor(Color.BLUE).build()).setActionRow(Button.danger("close-doubt", "❌ Fechar ticket")).addContent(event.getMember().getAsMention()).queue();
 
                         event.reply("Sua dúvida sobre o software foi aberta em " + textChannel.getAsMention() + "!").setEphemeral(true).queue();
 
-                        textChannel.sendMessage("<@1078760557202657451>").queue(message -> message.delete().queueAfter(2, TimeUnit.SECONDS));
+                        textChannel.sendMessage("<@&1087424463869591642>").queue(message -> message.delete().queueAfter(2, TimeUnit.SECONDS));
                     });
 
         } else if (event.getButton().getId().equalsIgnoreCase( "doubts-horario")) {
 
-            Category category = event.getJDA().getCategoryById(1078900379279962232L);
+            Category category = event.getJDA().getCategoryById(1087806779938836563L);
 
             EnumSet<Permission> permissions = EnumSet.of(Permission.VIEW_CHANNEL, Permission.MESSAGE_SEND);
 
@@ -138,16 +134,16 @@ public class ButtonClickEvent extends ListenerAdapter {
                     .setTopic(event.getMember().getId())
                     .addMemberPermissionOverride(event.getMember().getIdLong(), permissions, null)
                     .addPermissionOverride(guild.getPublicRole(), null, permissions)
-                    .addPermissionOverride(guild.getRoleById(1078852871807836261L), permissions, null)
+                    .addPermissionOverride(guild.getRoleById(1087724592497446922L), permissions, null)
                     .queue(textChannel -> {
                         textChannel.sendMessageEmbeds(new EmbedBuilder()
                                 .setDescription("Olá, seja bem-vindo(a) ao ticket de **agendamento de horário**, aguarde dentro de alguns"
                                         + " instantes que algum bolsista do LAR (Laborátório de Automação e Robótica) irá ajudá-lo(a).")
                                 .setColor(Color.BLUE).build()).setActionRow(Button.danger("close-doubt", "❌ Fechar ticket")).addContent(event.getMember().getAsMention()).queue();
 
-                        event.reply("Sua dúvida sobre o software foi aberta em " + textChannel.getAsMention() + "!").setEphemeral(true).queue();
+                        event.reply("Sua solicitação de agendamento foi aberta em " + textChannel.getAsMention() + "!").setEphemeral(true).queue();
 
-                        textChannel.sendMessage("<@1078852871807836261>").queue(message -> message.delete().queueAfter(2, TimeUnit.SECONDS));
+                        textChannel.sendMessage("<@&1087724592497446922>").queue(message -> message.delete().queueAfter(2, TimeUnit.SECONDS));
                     });
 
         } else if (event.getButton().getId().equalsIgnoreCase("close-doubt")) {
