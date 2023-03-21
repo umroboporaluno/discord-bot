@@ -3,10 +3,10 @@ package br.natalnet.ura.bot;
 import br.natalnet.ura.bot.controller.CommandController;
 import br.natalnet.ura.bot.event.ButtonClickEvent;
 import br.natalnet.ura.bot.event.MenuClickEvent;
+import br.natalnet.ura.bot.listener.CourseSelectEmbedMessageListener;
 import br.natalnet.ura.bot.listener.DoubtsEmbedMessageListener;
 import br.natalnet.ura.bot.listener.RulesEmbedMessageListener;
 import lombok.Getter;
-import lombok.Setter;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.requests.GatewayIntent;
@@ -36,7 +36,7 @@ public class BotSystem {
 
         shardManager = builder.build();
 
-        shardManager.addEventListener(new DoubtsEmbedMessageListener(), new RulesEmbedMessageListener());
+        shardManager.addEventListener(new DoubtsEmbedMessageListener(), new RulesEmbedMessageListener(), new CourseSelectEmbedMessageListener());
         shardManager.addEventListener(new CommandController());
         shardManager.addEventListener(new ButtonClickEvent(), new MenuClickEvent());
     }
