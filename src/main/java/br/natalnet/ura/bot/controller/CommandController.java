@@ -54,7 +54,7 @@ public class CommandController extends ListenerAdapter {
                 }
                  */
 
-                URL resource = loader.getResource("horario.png");
+                URL resource = loader.getResource("horario.jpeg");
 
                 if (resource == null) {
 

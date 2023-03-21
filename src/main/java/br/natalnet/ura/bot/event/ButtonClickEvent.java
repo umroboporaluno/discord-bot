@@ -11,8 +11,11 @@ import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.dv8tion.jda.api.interactions.components.selections.StringSelectMenu;
+import net.dv8tion.jda.api.utils.AttachedFile;
 
 import java.awt.*;
+import java.io.File;
+import java.net.URL;
 import java.util.EnumSet;
 import java.util.concurrent.TimeUnit;
 
@@ -130,6 +133,19 @@ public class ButtonClickEvent extends ListenerAdapter {
 
             EnumSet<Permission> permissions = EnumSet.of(Permission.VIEW_CHANNEL, Permission.MESSAGE_SEND);
 
+            ClassLoader loader = getClass().getClassLoader();
+
+            URL resource = loader.getResource("horario.jpeg");
+
+            File file;
+
+            if (resource == null) {
+                event.reply("Ops! O horário dos bolsistas não foi encontrado (IllegalArgumentException)").queue();
+                return;
+            }
+
+            file = new File(resource.getFile());
+
             guild.createTextChannel("agendamento: " + event.getMember().getUser().getName(), category)
                     .setTopic(event.getMember().getId())
                     .addMemberPermissionOverride(event.getMember().getIdLong(), permissions, null)
@@ -142,6 +158,10 @@ public class ButtonClickEvent extends ListenerAdapter {
                                 .setColor(Color.BLUE).build()).setActionRow(Button.danger("close-doubt", "❌ Fechar ticket")).addContent(event.getMember().getAsMention()).queue();
 
                         event.reply("Sua solicitação de agendamento foi aberta em " + textChannel.getAsMention() + "!").setEphemeral(true).queue();
+
+                        textChannel.sendFiles(AttachedFile.fromData(file)).queue();
+
+                        textChannel.sendMessage("**Escolha um dos horários acima para poder agendar sua ida ao laboratório!**").queue();
 
                         textChannel.sendMessage("<@&1087724592497446922>").queue(message -> message.delete().queueAfter(2, TimeUnit.SECONDS));
                     });
