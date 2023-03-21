@@ -1,31 +1,22 @@
 package br.natalnet.ura.bot.controller;
 
 import br.natalnet.ura.bot.BotApplication;
-import br.natalnet.ura.bot.BotSystem;
 import br.natalnet.ura.bot.entity.Member;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
-import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.events.guild.GuildReadyEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
-import net.dv8tion.jda.api.interactions.commands.DefaultMemberPermissions;
 import net.dv8tion.jda.api.interactions.commands.OptionMapping;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.dv8tion.jda.api.utils.AttachedFile;
-import net.dv8tion.jda.api.utils.FileUpload;
-import okhttp3.Cookie;
 import redis.clients.jedis.Jedis;
 
-import java.awt.*;
 import java.io.File;
-import java.io.InputStream;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +28,10 @@ public class CommandController extends ListenerAdapter {
     public void onSlashCommandInteraction(SlashCommandInteractionEvent event) {
 
         String command = event.getName();
+
+        try (Jedis jedis = BotApplication.getRedis().getJedisPool().getResource()) {
+            jedis.setex("last-command", 300, command);
+        }
 
         switch (command) {
 
@@ -176,6 +171,24 @@ public class CommandController extends ListenerAdapter {
 
                 break;
             }
+
+            case "ultima": {
+
+                if (event.getMember() == null)
+                    return;
+
+                try (Jedis jedis = BotApplication.getRedis().getJedisPool().getResource()) {
+
+                    if (jedis.get("last-command") == null) {
+                        event.reply("Não foi executado nenhum comando pelo bot pelos últimos 5 minutos.").queue();
+                        return;
+                    }
+
+                    event.reply("O último comando executado foi '/" + jedis.get("last-command") + "'.").queue();
+                }
+
+                break;
+            }
         }
     }
 
@@ -187,6 +200,7 @@ public class CommandController extends ListenerAdapter {
         dataStore.add(Commands.slash("horários", "Visualiza os horários do LAR disponíveis para uso."));
         dataStore.add(Commands.slash("clear", "Limpa as últimas 100 mensagens em qualquer chat."));
         dataStore.add(Commands.slash("carros", "Visualiza os carros salvos no banco de dados."));
+        dataStore.add(Commands.slash("ultima", "Visualiza o último comando executado num período de 5 minutos."));
 
         OptionData arg1 = new OptionData(OptionType.STRING, "nome", "Nome de quem você deseja cadastrar", true);
         OptionData arg2 = new OptionData(OptionType.STRING, "cargo", "Cargo de quem você deseja cadastrar", true);
