@@ -72,7 +72,7 @@ public class MenuClickEvent extends ListenerAdapter {
 
                     writer.close();
 
-                    TextChannel textChannel = event.getGuild().getTextChannelById(1078863579299708999L);
+                    TextChannel textChannel = event.getGuild().getTextChannelById(1087806562686476329L);
 
                     if (textChannel == null)
                         return;
