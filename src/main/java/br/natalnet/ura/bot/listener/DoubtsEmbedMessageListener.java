@@ -7,6 +7,8 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.components.buttons.Button;
 
+import java.awt.*;
+
 public class DoubtsEmbedMessageListener extends ListenerAdapter {
 
     @Override
@@ -34,13 +36,14 @@ public class DoubtsEmbedMessageListener extends ListenerAdapter {
                 .setDescription("Olá, seja bem-vindo ao atendimento do URA. Abaixo, há diversas "
                         + "categorias para você decidir em qual das aŕeas sua dúvida/solicitação se encaixa.\n\n"
                         + "**Categorias:**\n\n"
-                        + "☎️ > Dúvidas sobre o URA;\n"
-                        + "\uD83D\uDDA5 > Dúvidas sobre o hardware;\n"
-                        + "\uD83E\uDDD1\u200D\uD83D\uDCBB > Dúvidas sobre o software;\n"
-                        + "⏰ > Agende um horário;").build())
-                .setActionRow(Button.primary("doubts-ura", "Dúvidas sobre o URA"),
-                        Button.primary("doubts-hardware", "Dúvidas sobre o hardware"),
-                        Button.primary("doubts-software", "Dúvidas sobre o software"),
+                        + "\uD83E\uDD16 > Dúvidas sobre o curso;\n"
+                        + "⚙️ > Dúvidas sobre as engenharias;\n"
+                        + "\uD83D\uDE80 > Dúvidas sobre o marketing;\n"
+                        + "⏰ > Agende um horário;")
+                .setColor(Color.BLUE).build())
+                .setActionRow(Button.primary("doubts-course", "Dúvidas sobre o curso"),
+                        Button.primary("doubts-engineer", "Dúvidas sobre as engenharias"),
+                        Button.primary("doubts-marketing", "Dúvidas sobre o marketing"),
                         Button.primary("doubts-horario", "Agende um horário"))
                 .queue();
     }
