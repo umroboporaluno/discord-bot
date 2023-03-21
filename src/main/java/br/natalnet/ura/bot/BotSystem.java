@@ -25,9 +25,6 @@ public class BotSystem {
 
     private final long discordId = 630862350827782144L;
 
-    @Setter
-    private int ticks;
-
     public BotSystem() {
         builder = DefaultShardManagerBuilder.createDefault(getToken());
 
