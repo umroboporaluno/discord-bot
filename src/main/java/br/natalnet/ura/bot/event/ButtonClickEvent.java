@@ -225,6 +225,24 @@ public class ButtonClickEvent extends ListenerAdapter {
             event.getGuild().addRoleToMember(member, role).queue();
 
             event.reply("Curso selecionado com sucesso!").setEphemeral(true).queue();
+
+        } else if (event.getButton().getId().equalsIgnoreCase("course-ura-em")) {
+
+            Role role = event.getGuild().getRoleById(1087875452892352532L);
+
+            Member member = event.getMember();
+
+            if (role == null)
+                return;
+
+            if (member.getRoles().contains(role)) {
+                event.reply("Você já está registrado como membro do curso de professores, se deseja trocar, abra uma solicitação para 'Engenharias'.").setEphemeral(true).queue();
+                return;
+            }
+
+            event.getGuild().addRoleToMember(member, role).queue();
+
+            event.reply("Curso selecionado com sucesso!").setEphemeral(true).queue();
         }
     }
 }

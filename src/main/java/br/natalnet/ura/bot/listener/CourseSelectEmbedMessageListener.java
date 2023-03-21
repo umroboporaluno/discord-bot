@@ -39,7 +39,7 @@ public class CourseSelectEmbedMessageListener extends ListenerAdapter {
                 .setAuthor("Seleção do curso")
                 .setDescription(roles)
                 .setColor(Color.BLUE)
-                .build()).setActionRow(Button.primary("course-ura-def", "Curso graduandos"), Button.primary("course-ura-teacher", "Curso professores"))
+                .build()).setActionRow(Button.primary("course-ura-def", "Curso graduandos"), Button.primary("course-ura-teacher", "Curso professores"), Button.primary("course-ura-em", "Curso ensino médio"))
                 .queue();
     }
 }
