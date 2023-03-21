@@ -3,6 +3,8 @@ package br.natalnet.ura.bot.event;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.channel.concrete.Category;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.events.interaction.component.ButtonInteractionEvent;
@@ -180,6 +182,42 @@ public class ButtonClickEvent extends ListenerAdapter {
                             .addOption("Deletar o ticket", "menu-delete")
                             .build())
                     .queue();
+
+        } else if (event.getButton().getId().equalsIgnoreCase("course-ura-def")) {
+
+            Role role = event.getGuild().getRoleById(1087796556968767639L);
+
+            Member member = event.getMember();
+
+            if (role == null)
+                return;
+
+            if (member.getRoles().contains(role)) {
+                event.reply("Você já está registrado como membro do curso de graduandos, se deseja trocar, abra uma solicitação para 'Engenharias'.").setEphemeral(true).queue();
+                return;
+            }
+
+            event.getGuild().addRoleToMember(member, role).queue();
+
+            event.reply("Curso selecionado com sucesso!").setEphemeral(true).queue();
+
+        } else if (event.getButton().getId().equalsIgnoreCase("course-ura-teacher")) {
+
+            Role role = event.getGuild().getRoleById(1087796608969744496L);
+
+            Member member = event.getMember();
+
+            if (role == null)
+                return;
+
+            if (member.getRoles().contains(role)) {
+                event.reply("Você já está registrado como membro do curso de professores, se deseja trocar, abra uma solicitação para 'Engenharias'.").setEphemeral(true).queue();
+                return;
+            }
+
+            event.getGuild().addRoleToMember(member, role).queue();
+
+            event.reply("Curso selecionado com sucesso!").setEphemeral(true).queue();
         }
     }
 }
