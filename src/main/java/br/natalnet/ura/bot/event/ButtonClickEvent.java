@@ -15,7 +15,6 @@ import net.dv8tion.jda.api.utils.AttachedFile;
 
 import java.awt.*;
 import java.io.File;
-import java.net.URL;
 import java.util.EnumSet;
 import java.util.concurrent.TimeUnit;
 
