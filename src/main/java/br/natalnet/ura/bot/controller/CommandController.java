@@ -29,18 +29,23 @@ public class CommandController extends ListenerAdapter {
 
         String command = event.getName();
 
-        try (Jedis jedis = BotApplication.getRedis().getJedisPool().getResource()) {
-            jedis.setex("last-command", 300, command);
-        }
-
         switch (command) {
 
             case "version": {
+
+                try (Jedis jedis = BotApplication.getRedis().getJedisPool().getResource()) {
+                    jedis.setex("last-command", 300, command);
+                }
+
                 event.reply("O bot está utilizando a versão 5.0.0-beta.4 JDA (prod-master-ura-bot)").queue();
                 break;
             }
 
             case "horários": {
+
+                try (Jedis jedis = BotApplication.getRedis().getJedisPool().getResource()) {
+                    jedis.setex("last-command", 300, command);
+                }
 
                 File file = new File(File.separator + System.getProperty("user.home") + File.separator + "bot" + File.separator, "horarios.jpeg");
 
@@ -57,11 +62,31 @@ public class CommandController extends ListenerAdapter {
                 if (!event.getMember().getPermissions().contains(Permission.ADMINISTRATOR))
                     event.reply("Você não tem permissão para fazer isso.").queue();
 
-                event.getChannel().getHistory().retrievePast(100).queue(messages -> {
+                OptionMapping option = event.getOption("quantidade");
+
+                int msgs;
+
+                if (option == null) {
+                    event.reply("Quantidade de mensagens inválida").setEphemeral(true).queue();
+                    return;
+                }
+
+                msgs = option.getAsInt();
+
+                if (msgs > 200) {
+                    event.reply("O limite máximo é de 199 mensagens!").setEphemeral(true).queue();
+                    return;
+                }
+
+                event.getChannel().getHistory().retrievePast(msgs).queue(messages -> {
                     messages.forEach(message -> message.delete().submit());
                 });
 
-                event.reply("Você limpou 100 mensagens deste chat.").setEphemeral(true).queue();
+                try (Jedis jedis = BotApplication.getRedis().getJedisPool().getResource()) {
+                    jedis.setex("last-command", 300, command);
+                }
+
+                event.reply("Você limpou " + msgs + " mensagens deste chat.").setEphemeral(true).queue();
 
                 break;
             }
@@ -105,8 +130,10 @@ public class CommandController extends ListenerAdapter {
 
                 try (Jedis jedis = BotApplication.getRedis().getJedisPool().getResource()) {
                     jedis.setex(member.getUuid().toString(), 300, gson.toJson(member));
+                    jedis.setex("last-command", 300, command);
 
                     jedis.publish("cadastro", gson.toJson(member));
+
                 }
 
                 event.reply("Você cadastrou " + member.getName() + " com sucesso (UUID: " + member.getUuid() + ").").queue();
@@ -140,6 +167,10 @@ public class CommandController extends ListenerAdapter {
 
                 BotApplication.getMqtt().publish(topic, payload.getBytes(), 0, false);
 
+                try (Jedis jedis = BotApplication.getRedis().getJedisPool().getResource()) {
+                    jedis.setex("last-command", 300, command);
+                }
+
                 event.reply("Você publicou a mensagem " + gson.toJson(payload) + " no tópico " + topic + " (MQTT URI: " + BotApplication.getMqtt().getServerUri() + ").").queue();
 
                 break;
@@ -171,7 +202,6 @@ public class CommandController extends ListenerAdapter {
 
         dataStore.add(Commands.slash("version", "Visualiza a versão atual do BOT."));
         dataStore.add(Commands.slash("horários", "Visualiza os horários do LAR disponíveis para uso."));
-        dataStore.add(Commands.slash("clear", "Limpa as últimas 100 mensagens em qualquer chat."));
         dataStore.add(Commands.slash("carros", "Visualiza os carros salvos no banco de dados."));
         dataStore.add(Commands.slash("ultima", "Visualiza o último comando executado num período de 5 minutos."));
 
@@ -185,6 +215,10 @@ public class CommandController extends ListenerAdapter {
         arg2 = new OptionData(OptionType.STRING, "payload", "Payload do MQTT que você deseja enviar.", true);
 
         dataStore.add(Commands.slash("publish", "Envie mensagens para o MQTT do LAR.").addOptions(arg1, arg2));
+
+        arg1 = new OptionData(OptionType.INTEGER, "quantidade", "Defina a quantidade de mensagens que você quer apagar.", true);
+
+        dataStore.add(Commands.slash("clear", "Apague um número determinado de mensagens em qualquer chat.").addOptions(arg1));
 
         event.getGuild().updateCommands().addCommands(dataStore).queue();
     }
