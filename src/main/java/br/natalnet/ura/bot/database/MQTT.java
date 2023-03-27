@@ -23,6 +23,8 @@ public class MQTT implements MqttCallback {
 
         this.options = new MqttConnectionOptions();
 
+        options.setUserName("mqtt");
+        options.setPassword("lar_mqtt".getBytes());
         options.setConnectionTimeout(3);
         options.setKeepAliveInterval(5);
         options.setAutomaticReconnect(true);
