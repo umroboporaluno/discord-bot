@@ -1,4 +1,4 @@
-package br.natalnet.ura.bot.entity;
+package br.natalnet.ura.bot.entity.door;
 
 import lombok.Data;
 
