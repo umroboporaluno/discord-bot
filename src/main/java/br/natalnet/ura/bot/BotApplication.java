@@ -3,12 +3,9 @@ package br.natalnet.ura.bot;
 import br.natalnet.ura.bot.controller.RedisPubSubController;
 import br.natalnet.ura.bot.database.MQTT;
 import br.natalnet.ura.bot.database.Redis;
-import br.natalnet.ura.bot.database.pubsub.MQTTPubSub;
 import br.natalnet.ura.bot.database.pubsub.RedisPubSub;
 import lombok.Getter;
-import org.eclipse.paho.mqttv5.client.IMqttMessageListener;
 import org.eclipse.paho.mqttv5.common.MqttException;
-import org.eclipse.paho.mqttv5.common.MqttMessage;
 
 import java.util.*;
 
@@ -24,9 +21,6 @@ public class BotApplication {
     private static MQTT mqtt;
 
     private static RedisPubSub redisPubSub;
-
-    @Getter
-    private static MQTTPubSub mqttPubSub;
 
     public static void main(String[] args) throws MqttException {
 
