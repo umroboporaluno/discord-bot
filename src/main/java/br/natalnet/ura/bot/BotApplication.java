@@ -3,11 +3,14 @@ package br.natalnet.ura.bot;
 import br.natalnet.ura.bot.controller.RedisPubSubController;
 import br.natalnet.ura.bot.database.MQTT;
 import br.natalnet.ura.bot.database.Redis;
+import br.natalnet.ura.bot.database.pubsub.MQTTPubSub;
 import br.natalnet.ura.bot.database.pubsub.RedisPubSub;
 import lombok.Getter;
+import org.eclipse.paho.mqttv5.client.IMqttMessageListener;
+import org.eclipse.paho.mqttv5.common.MqttException;
+import org.eclipse.paho.mqttv5.common.MqttMessage;
 
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 
 public class BotApplication {
 
@@ -22,7 +25,10 @@ public class BotApplication {
 
     private static RedisPubSub redisPubSub;
 
-    public static void main(String[] args) {
+    @Getter
+    private static MQTTPubSub mqttPubSub;
+
+    public static void main(String[] args) throws MqttException {
 
         system = new BotSystem();
         redis = new Redis();
@@ -31,6 +37,8 @@ public class BotApplication {
 
         mqtt = new MQTT("tcp://10.6.1.42:1883");
         mqtt.connect();
+
+        mqttPubSub = new MQTTPubSub(mqtt, "#", 0);
 
         Timer timer = new Timer();
 
