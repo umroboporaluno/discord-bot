@@ -2,10 +2,9 @@ package br.natalnet.ura.bot.controller;
 
 import br.natalnet.ura.bot.BotApplication;
 import br.natalnet.ura.bot.database.MQTT;
-import br.natalnet.ura.bot.entity.Member;
+import br.natalnet.ura.bot.entity.door.Member;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import org.eclipse.paho.mqttv5.client.MqttClient;
 import redis.clients.jedis.JedisPubSub;
 
 public class RedisPubSubController extends JedisPubSub {
