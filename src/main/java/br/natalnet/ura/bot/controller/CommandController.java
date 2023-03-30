@@ -1,7 +1,7 @@
 package br.natalnet.ura.bot.controller;
 
 import br.natalnet.ura.bot.BotApplication;
-import br.natalnet.ura.bot.entity.Member;
+import br.natalnet.ura.bot.entity.door.Member;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import net.dv8tion.jda.api.Permission;
@@ -17,7 +17,6 @@ import net.dv8tion.jda.api.utils.AttachedFile;
 import redis.clients.jedis.Jedis;
 
 import java.io.File;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
