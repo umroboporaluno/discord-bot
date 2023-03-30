@@ -1,5 +1,6 @@
 package br.natalnet.ura.bot.database;
 
+import br.natalnet.ura.bot.BotApplication;
 import lombok.Getter;
 import org.eclipse.paho.mqttv5.client.*;
 import org.eclipse.paho.mqttv5.client.persist.MqttDefaultFilePersistence;
@@ -10,7 +11,7 @@ import org.eclipse.paho.mqttv5.common.packet.MqttProperties;
 import java.util.UUID;
 
 @Getter
-public class MQTT implements MqttCallback {
+public class MQTT implements MqttCallback, IMqttMessageListener {
 
     private final String serverUri;
 
@@ -82,7 +83,7 @@ public class MQTT implements MqttCallback {
         } catch (MqttException e) {
             e.printStackTrace();
 
-            return null;
+            System.out.println("Erro ao se inscrever nos topicos");
         }
     }
 
