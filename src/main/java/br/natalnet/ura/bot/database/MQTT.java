@@ -2,12 +2,15 @@ package br.natalnet.ura.bot.database;
 
 import br.natalnet.ura.bot.BotApplication;
 import lombok.Getter;
+import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import org.eclipse.paho.mqttv5.client.*;
 import org.eclipse.paho.mqttv5.client.persist.MqttDefaultFilePersistence;
 import org.eclipse.paho.mqttv5.common.MqttException;
 import org.eclipse.paho.mqttv5.common.MqttMessage;
 import org.eclipse.paho.mqttv5.common.packet.MqttProperties;
+import redis.clients.jedis.Jedis;
 
+import java.util.Arrays;
 import java.util.UUID;
 
 @Getter
@@ -33,6 +36,8 @@ public class MQTT implements MqttCallback, IMqttMessageListener {
         this.options.setCleanStart(true);
 
         this.client.connect(options);
+        this.client.setCallback(this);
+        this.client.subscribe("#", 0);
     }
 
     public void disconnect() {
@@ -109,7 +114,28 @@ public class MQTT implements MqttCallback, IMqttMessageListener {
 
     @Override
     public void messageArrived(String topic, MqttMessage message) throws Exception {
-        System.out.println(message);
+        TextChannel textChannel = BotApplication.getSystem().getShardManager().getTextChannelById(1087806562686476329L);
+
+        if (textChannel == null)
+            return;
+
+        switch (topic) {
+
+            case "door/cadastro": {
+                textChannel.sendMessage("**[CADASTRO]:** Cadastro realizado '" + Arrays.toString(message.getPayload()) + "'.").queue();
+                break;
+            }
+
+            case "door/logs": {
+                textChannel.sendMessage("**[DOOR - LOG]:** " + message.toString() + ".").queue();
+                break;
+            }
+
+            case "door/comandos": {
+                textChannel.sendMessage("**[DOOR - COMANDO]:** A porta recebeu o comando '" + message.toString() + "'.").queue();
+                break;
+            }
+        }
     }
 
     @Override
