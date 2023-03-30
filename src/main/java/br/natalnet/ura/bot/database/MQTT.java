@@ -15,36 +15,24 @@ public class MQTT implements MqttCallback, IMqttMessageListener {
 
     private final String serverUri;
 
-    private MqttClient client;
+    private final MqttClient client;
 
     private final MqttConnectionOptions options;
 
-    public MQTT(String serverUri) {
+    public MQTT(String serverUri) throws MqttException {
         this.serverUri = serverUri;
+
+        this.client = new MqttClient(serverUri, UUID.randomUUID().toString(), new MqttDefaultFilePersistence(System.getProperty("java.io.tmpdir")));
 
         this.options = new MqttConnectionOptions();
 
-        options.setUserName("mqtt");
-        options.setPassword("lar_mqtt".getBytes());
-        options.setConnectionTimeout(3);
-        options.setKeepAliveInterval(5);
-        options.setAutomaticReconnect(true);
-        options.setCleanStart(false);
-    }
+        this.options.setUserName("mqtt");
+        this.options.setPassword("lar_mqtt".getBytes());
+        this.options.setKeepAliveInterval(5);
+        this.options.setAutomaticReconnect(true);
+        this.options.setCleanStart(true);
 
-    public void connect() {
-        try {
-            System.out.println("Connecting to " + getServerUri() + " MQTT broker...");
-
-            client = new MqttClient(serverUri, UUID.randomUUID().toString(), new MqttDefaultFilePersistence(System.getProperty("java.io.tmpdir")));
-
-            client.setCallback(this);
-
-            client.connect(options);
-
-        } catch (MqttException e) {
-            e.printStackTrace();
-        }
+        this.client.connect(options);
     }
 
     public void disconnect() {
@@ -53,6 +41,7 @@ public class MQTT implements MqttCallback, IMqttMessageListener {
             return;
 
         try {
+
             client.disconnect();
             client.close();
 
@@ -83,7 +72,7 @@ public class MQTT implements MqttCallback, IMqttMessageListener {
         } catch (MqttException e) {
             e.printStackTrace();
 
-            System.out.println("Erro ao se inscrever nos topicos");
+            return null;
         }
     }
 
@@ -115,7 +104,7 @@ public class MQTT implements MqttCallback, IMqttMessageListener {
 
     @Override
     public void mqttErrorOccurred(MqttException exception) {
-
+        System.out.println(exception.getMessage());
     }
 
     @Override

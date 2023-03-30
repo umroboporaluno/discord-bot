@@ -36,9 +36,6 @@ public class BotApplication {
         redisPubSub = new RedisPubSub(new RedisPubSubController(), "cadastro");
 
         mqtt = new MQTT("tcp://10.6.1.42:1883");
-        mqtt.connect();
-
-        mqttPubSub = new MQTTPubSub(mqtt, "#", 0);
 
         Timer timer = new Timer();
 

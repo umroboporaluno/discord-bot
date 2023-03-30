@@ -19,8 +19,16 @@ import java.util.Arrays;
 @Getter
 public class MQTTPubSub implements IMqttMessageListener {
 
+    private final MQTT mqtt;
+
+    private final String topic;
+
+    private final int qos;
+
     public MQTTPubSub(MQTT mqtt, String topic, int qos) {
-        BotApplication.getMqtt().subscribe(qos, this, topic);
+        this.mqtt = mqtt;
+        this.topic = topic;
+        this.qos = qos;
     }
 
     @Override
