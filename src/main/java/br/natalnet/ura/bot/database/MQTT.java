@@ -122,7 +122,7 @@ public class MQTT implements MqttCallback, IMqttMessageListener {
         switch (topic) {
 
             case "door/cadastro": {
-                textChannel.sendMessage("**[CADASTRO]:** Cadastro realizado '" + message.toString() + "'.").queue();
+                textChannel.sendMessage("**[DOOR - CADASTRO]:** Cadastro realizado '" + message.toString() + "'.").queue();
                 break;
             }
 
@@ -131,7 +131,7 @@ public class MQTT implements MqttCallback, IMqttMessageListener {
                 break;
             }
 
-            case "door/comandos": {
+            case "door/input": {
                 textChannel.sendMessage("**[DOOR - COMANDO]:** A porta recebeu o comando '" + message.toString() + "'.").queue();
                 break;
             }
