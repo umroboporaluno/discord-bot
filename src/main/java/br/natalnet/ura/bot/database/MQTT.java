@@ -122,7 +122,7 @@ public class MQTT implements MqttCallback, IMqttMessageListener {
         switch (topic) {
 
             case "door/cadastro": {
-                textChannel.sendMessage("**[CADASTRO]:** Cadastro realizado '" + Arrays.toString(message.getPayload()) + "'.").queue();
+                textChannel.sendMessage("**[CADASTRO]:** Cadastro realizado '" + message.toString() + "'.").queue();
                 break;
             }
 
