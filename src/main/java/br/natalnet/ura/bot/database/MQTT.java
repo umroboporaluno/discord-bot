@@ -135,6 +135,16 @@ public class MQTT implements MqttCallback, IMqttMessageListener {
                 textChannel.sendMessage("**[DOOR - COMANDO]:** A porta recebeu o comando '" + message.toString() + "'.").queue();
                 break;
             }
+
+            case "door/controle": {
+                textChannel.sendMessage("**[DOOR - CONTROLE]:** " + message.toString() + ".").queue();
+                break;
+            }
+
+            case "door/estado": {
+                textChannel.sendMessage("**[DOOR-ESTADO]:** " + message.toString() + ".").queue();
+                break;
+            }
         }
     }
 
