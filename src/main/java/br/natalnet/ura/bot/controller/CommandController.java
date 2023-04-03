@@ -135,7 +135,7 @@ public class CommandController extends ListenerAdapter {
 
                 }
 
-                event.reply("Você cadastrou " + member.getName() + " com sucesso (UUID: " + member.getUuid() + ").").queue();
+                event.reply("Você cadastrou " + member.getName() + " com sucesso (UUID: " + member.getUuid() + ").").setEphemeral(true).queue();
 
                 break;
             }
