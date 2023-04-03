@@ -20,7 +20,7 @@ public class RedisPubSubController extends JedisPubSub {
 
             Member member = gson.fromJson(message, Member.class);
 
-            String msg = member.getName() + ";" + member.getRole() + ";" + member.getRfid();
+            String msg = member.getName() + ";" + member.getRfid();
 
             mqtt.publish("door/cadastro", msg.getBytes(), 0, false);
 
