@@ -31,9 +31,10 @@ public class MQTT implements MqttCallback, IMqttMessageListener {
 
         this.options.setUserName("mqtt");
         this.options.setPassword("lar_mqtt".getBytes());
-        this.options.setKeepAliveInterval(5);
+        this.options.setConnectionTimeout(0);
+        this.options.setKeepAliveInterval(1);
         this.options.setAutomaticReconnect(true);
-        this.options.setCleanStart(true);
+        this.options.setCleanStart(false);
 
         this.client.connect(options);
         this.client.setCallback(this);
@@ -156,6 +157,12 @@ public class MQTT implements MqttCallback, IMqttMessageListener {
     @Override
     public void connectComplete(boolean reconnect, String serverURI) {
         System.out.println("MQTT " + (reconnect ? "reconnected" : "connected") + " with success in " + serverURI);
+
+        try {
+            client.connect(options);
+        } catch (MqttException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
