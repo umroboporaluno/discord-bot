@@ -55,7 +55,7 @@ public class MQTT implements MqttCallback, IMqttMessageListener {
             e.printStackTrace();
         }
     }
-    
+
     public synchronized void publish(String topic, byte[] payload, int qos, boolean retained) {
 
         try {

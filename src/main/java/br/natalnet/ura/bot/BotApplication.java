@@ -22,6 +22,8 @@ public class BotApplication {
 
     private static RedisPubSub redisPubSub;
 
+    private static int tick;
+
     public static void main(String[] args) throws MqttException {
 
         system = new BotSystem();
@@ -37,7 +39,16 @@ public class BotApplication {
 
             @Override
             public void run() {
+
+                tick++;
+
                 redisPubSub.run();
+
+                if (tick % 60 == 0) {
+                    mqtt.publish("bot/keepalive", ("KeepAlive: " + tick).getBytes(), 1, false);
+                }
+
+                System.out.println(tick);
             }
         };
 
