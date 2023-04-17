@@ -105,15 +105,6 @@ public class CommandController extends ListenerAdapter {
 
                 name = option.getAsString();
 
-                option = event.getOption("cargo");
-
-                if (option == null) {
-                    event.reply("Cargo inválido").setEphemeral(true).queue();
-                    return;
-                }
-
-                role = option.getAsString();
-
                 option = event.getOption("rfid");
 
                 if (option == null) {
@@ -123,7 +114,7 @@ public class CommandController extends ListenerAdapter {
 
                 rfid = option.getAsString();
 
-                Member member = new Member(UUID.randomUUID(), name, role, rfid);
+                Member member = new Member(UUID.randomUUID(), name, rfid);
 
                 System.out.println(member.getUuid());
 
@@ -205,10 +196,9 @@ public class CommandController extends ListenerAdapter {
         dataStore.add(Commands.slash("ultima", "Visualiza o último comando executado num período de 5 minutos."));
 
         OptionData arg1 = new OptionData(OptionType.STRING, "nome", "Nome de quem você deseja cadastrar", true);
-        OptionData arg2 = new OptionData(OptionType.STRING, "cargo", "Cargo de quem você deseja cadastrar", true);
-        OptionData arg3 = new OptionData(OptionType.STRING, "rfid", "ID RFiD de quem você deseja cadastrar", true);
+        OptionData arg2 = new OptionData(OptionType.STRING, "rfid", "ID RFiD de quem você deseja cadastrar", true);
 
-        dataStore.add(Commands.slash("cadastrar", "Cadastre uma pessoa para acessar o LAR.").addOptions(arg1, arg2, arg3));
+        dataStore.add(Commands.slash("cadastrar", "Cadastre uma pessoa para acessar o LAR.").addOptions(arg1, arg2));
 
         arg1 = new OptionData(OptionType.STRING, "tópico",  "Tópico do MQTT que você deseja enviar.", true);
         arg2 = new OptionData(OptionType.STRING, "payload", "Payload do MQTT que você deseja enviar.", true);
