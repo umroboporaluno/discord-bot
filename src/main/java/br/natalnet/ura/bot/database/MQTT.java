@@ -55,45 +55,7 @@ public class MQTT implements MqttCallback, IMqttMessageListener {
             e.printStackTrace();
         }
     }
-
-    public IMqttToken subscribe(int qos, IMqttMessageListener listener, String... topics) {
-
-        if (client == null || topics.length == 0)
-            return null;
-
-        int size = topics.length;
-
-        int[] i = new int[size];
-
-        IMqttMessageListener[] listeners = new IMqttMessageListener[size];
-
-        for (int x = 0; x < size; x++) {
-            i[x] = qos;
-
-            listeners[x] = listener;
-        }
-
-        try {
-            return client.subscribe(topics, i, listeners);
-        } catch (MqttException e) {
-            e.printStackTrace();
-
-            return null;
-        }
-    }
-
-    public void unsubscribe(String... topics) {
-
-        if (client == null || !client.isConnected() || topics.length == 0)
-            return;
-
-        try {
-            client.unsubscribe(topics);
-        } catch (MqttException e) {
-            e.printStackTrace();
-        }
-    }
-
+    
     public synchronized void publish(String topic, byte[] payload, int qos, boolean retained) {
 
         try {
