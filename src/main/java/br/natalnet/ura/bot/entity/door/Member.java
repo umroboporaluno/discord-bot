@@ -9,5 +9,5 @@ public class Member {
 
     private final UUID uuid;
 
-    private final String name, role, rfid;
+    private final String name, rfid;
 }
