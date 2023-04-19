@@ -32,7 +32,7 @@ public class MQTT implements MqttCallback, IMqttMessageListener {
         this.options.setUserName("mqtt");
         this.options.setPassword("lar_mqtt".getBytes());
         this.options.setConnectionTimeout(0);
-        this.options.setKeepAliveInterval(5);
+        this.options.setKeepAliveInterval(60);
         this.options.setAutomaticReconnect(true);
         this.options.setCleanStart(false);
 
