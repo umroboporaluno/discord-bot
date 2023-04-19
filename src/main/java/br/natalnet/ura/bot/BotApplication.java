@@ -40,7 +40,7 @@ public class BotApplication {
             @Override
             public void run() {
 
-                tick++;
+                tick = tick + 1;
 
                 redisPubSub.run();
 
