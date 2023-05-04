@@ -28,23 +28,21 @@ public class CommandController extends ListenerAdapter {
 
         String command = event.getName();
 
+        if (!command.equals("ultima")) {
+
+            try (Jedis jedis = BotApplication.getRedis().getJedisPool().getResource()) {
+                jedis.setex("last-command", 300, command);
+            }
+        }
+
         switch (command) {
 
             case "version": {
-
-                try (Jedis jedis = BotApplication.getRedis().getJedisPool().getResource()) {
-                    jedis.setex("last-command", 300, command);
-                }
-
                 event.reply("O bot está utilizando a versão 5.0.0-beta.4 JDA (prod-master-ura-bot)").queue();
                 break;
             }
 
             case "horários": {
-
-                try (Jedis jedis = BotApplication.getRedis().getJedisPool().getResource()) {
-                    jedis.setex("last-command", 300, command);
-                }
 
                 File file = new File(File.separator + System.getProperty("user.home") + File.separator + "bot" + File.separator, "horarios.jpeg");
 
@@ -81,10 +79,6 @@ public class CommandController extends ListenerAdapter {
                     messages.forEach(message -> message.delete().submit());
                 });
 
-                try (Jedis jedis = BotApplication.getRedis().getJedisPool().getResource()) {
-                    jedis.setex("last-command", 300, command);
-                }
-
                 event.reply("Você limpou " + msgs + " mensagens deste chat.").setEphemeral(true).queue();
 
                 break;
@@ -94,7 +88,7 @@ public class CommandController extends ListenerAdapter {
 
                 OptionMapping option = event.getOption("nome");
 
-                String name, role, rfid;
+                String name, rfid;
 
                 Gson gson = new GsonBuilder().create();
 
@@ -120,7 +114,6 @@ public class CommandController extends ListenerAdapter {
 
                 try (Jedis jedis = BotApplication.getRedis().getJedisPool().getResource()) {
                     jedis.setex(member.getUuid().toString(), 300, gson.toJson(member));
-                    jedis.setex("last-command", 300, command);
 
                     jedis.publish("cadastro", gson.toJson(member));
 
