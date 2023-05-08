@@ -23,8 +23,6 @@ public class RedisPubSubController extends JedisPubSub {
             String msg = member.getName() + ";" + member.getRfid();
 
             mqtt.publish("door/cadastro", msg.getBytes(), 0, false);
-
-            System.out.println(msg);
         }
     }
 }

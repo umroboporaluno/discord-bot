@@ -121,9 +121,11 @@ public class MQTT implements MqttCallback, IMqttMessageListener {
         System.out.println("MQTT " + (reconnect ? "reconnected" : "connected") + " with success in " + serverURI);
 
         try {
+
             client.connect(options);
             client.setCallback(this);
             client.subscribe("#", 0);
+
         } catch (MqttException e) {
             throw new RuntimeException(e);
         }
