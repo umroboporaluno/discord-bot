@@ -22,7 +22,7 @@ public class Redis implements AutoCloseable {
         config.setMinIdle(5);
         config.setBlockWhenExhausted(false);
 
-        jedisPool = new JedisPool(config, "127.0.0.1", 6379, 5000);
+        jedisPool = new JedisPool(config, "10.6.1.51", 6379, 5000);
     }
 
     public void publish(String channel, String type, Consumer<JsonObject> jsonObject) {
