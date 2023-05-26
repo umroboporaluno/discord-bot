@@ -4,11 +4,15 @@ import br.natalnet.ura.bot.controller.RedisPubSubController;
 import br.natalnet.ura.bot.database.MQTT;
 import br.natalnet.ura.bot.database.Redis;
 import br.natalnet.ura.bot.database.pubsub.RedisPubSub;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonParser;
 import lombok.Getter;
 import org.eclipse.paho.mqttv5.common.MqttException;
 
 import java.util.*;
 
+@Getter
 public class BotApplication {
 
     @Getter
@@ -23,6 +27,12 @@ public class BotApplication {
     private static RedisPubSub redisPubSub;
 
     private static int tick;
+
+    @Getter
+    private static final Gson gson = new GsonBuilder().create();
+
+    @Getter
+    private static final JsonParser parser = new JsonParser();
 
     public static void main(String[] args) throws MqttException {
 
@@ -40,7 +50,7 @@ public class BotApplication {
             @Override
             public void run() {
 
-                tick++;
+                tick = tick + 1;
 
                 redisPubSub.run();
 
