@@ -1,6 +1,7 @@
 package br.natalnet.ura.bot.controller;
 
 import br.natalnet.ura.bot.BotApplication;
+import br.natalnet.ura.bot.database.MQTT;
 import br.natalnet.ura.bot.entity.door.Member;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -92,6 +93,8 @@ public class CommandController extends ListenerAdapter {
 
                 Gson gson = new GsonBuilder().create();
 
+                MQTT mqtt = BotApplication.getMqtt();
+
                 if (option == null) {
                     event.reply("Nome inválido").setEphemeral(true).queue();
                     return;
@@ -110,13 +113,12 @@ public class CommandController extends ListenerAdapter {
 
                 Member member = new Member(UUID.randomUUID(), name, rfid);
 
-                System.out.println(member.getUuid());
+                String toSend = member.getName() + ";" + member.getRfid();
+
+                mqtt.publish("door/cadastro", toSend.getBytes(), 0, false);
 
                 try (Jedis jedis = BotApplication.getRedis().getJedisPool().getResource()) {
                     jedis.setex(member.getUuid().toString(), 300, gson.toJson(member));
-
-                    jedis.publish("cadastro", gson.toJson(member));
-
                 }
 
                 event.reply("Você cadastrou " + member.getName() + " com sucesso (UUID: " + member.getUuid() + ").").setEphemeral(true).queue();
