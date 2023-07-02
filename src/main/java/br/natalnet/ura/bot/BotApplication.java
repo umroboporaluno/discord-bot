@@ -1,12 +1,10 @@
 package br.natalnet.ura.bot;
 
-import br.natalnet.ura.bot.controller.RedisPubSubController;
 import br.natalnet.ura.bot.database.MQTT;
 import br.natalnet.ura.bot.database.Redis;
 import br.natalnet.ura.bot.database.pubsub.RedisPubSub;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonParser;
 import lombok.Getter;
 import org.eclipse.paho.mqttv5.common.MqttException;
 
@@ -24,22 +22,15 @@ public class BotApplication {
     @Getter
     private static MQTT mqtt;
 
-    private static RedisPubSub redisPubSub;
-
     private static int tick;
 
     @Getter
     private static final Gson gson = new GsonBuilder().create();
 
-    @Getter
-    private static final JsonParser parser = new JsonParser();
-
     public static void main(String[] args) throws MqttException {
 
         system = new BotSystem();
         redis = new Redis();
-
-        redisPubSub = new RedisPubSub(new RedisPubSubController(), "cadastro");
 
         mqtt = new MQTT("tcp://10.6.1.42:1883");
 
@@ -52,8 +43,6 @@ public class BotApplication {
 
                 tick = tick + 1;
 
-                redisPubSub.run();
-
                 if (tick % 60 == 0) {
                     mqtt.publish("bot/keepalive", ("KeepAlive: " + tick).getBytes(), 1, false);
                 }
@@ -63,6 +52,6 @@ public class BotApplication {
             }
         };
 
-        timer.schedule(task, 1, 1);
+        timer.schedule(task, 1000);
     }
 }
