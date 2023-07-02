@@ -50,7 +50,7 @@ public class Redis implements AutoCloseable {
     }
 
     @Override
-    public void close() throws Exception {
+    public void close() {
         jedisPool.close();
 
         jedisPool = null;
