@@ -77,38 +77,7 @@ public class MQTT implements MqttCallback, IMqttMessageListener {
 
     @Override
     public void messageArrived(String topic, MqttMessage message) throws Exception {
-        TextChannel textChannel = BotApplication.getSystem().getShardManager().getTextChannelById(1087806562686476329L);
 
-        if (textChannel == null)
-            return;
-
-        switch (topic) {
-
-            case "door/cadastro": {
-                textChannel.sendMessage("**[DOOR - CADASTRO]:** Cadastro realizado '" + message.toString() + "'.").queue();
-                break;
-            }
-
-            case "door/logs": {
-                textChannel.sendMessage("**[DOOR - LOG]:** " + message.toString() + ".").queue();
-                break;
-            }
-
-            case "door/input": {
-                textChannel.sendMessage("**[DOOR - COMANDO]:** A porta recebeu o comando '" + message.toString() + "'.").queue();
-                break;
-            }
-
-            case "door/controle": {
-                textChannel.sendMessage("**[DOOR - CONTROLE]:** " + message.toString() + ".").queue();
-                break;
-            }
-
-            case "door/estado": {
-                textChannel.sendMessage("**[DOOR-ESTADO]:** " + message.toString() + ".").queue();
-                break;
-            }
-        }
     }
 
     @Override
