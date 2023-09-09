@@ -29,17 +29,10 @@ public class CommandController extends ListenerAdapter {
 
         String command = event.getName();
 
-        if (!command.equals("ultima")) {
-
-            try (Jedis jedis = BotApplication.getRedis().getJedisPool().getResource()) {
-                jedis.setex("last-command", 300, command);
-            }
-        }
-
         switch (command) {
 
             case "version": {
-                event.reply("O bot está utilizando a versão 5.0.0-beta.4 JDA (prod-master-ura-bot)").queue();
+                event.reply("O bot está utilizando a versão 5.2.1 (prod-master-luissssmartins-ebf195s)").queue();
                 break;
             }
 
@@ -91,8 +84,6 @@ public class CommandController extends ListenerAdapter {
 
                 String name, rfid;
 
-                Gson gson = new GsonBuilder().create();
-
                 MQTT mqtt = BotApplication.getMqtt();
 
                 if (option == null) {
@@ -116,10 +107,6 @@ public class CommandController extends ListenerAdapter {
                 String toSend = member.getName() + ";" + member.getRfid();
 
                 mqtt.publish("door/cadastro", toSend.getBytes(), 0, false);
-
-                try (Jedis jedis = BotApplication.getRedis().getJedisPool().getResource()) {
-                    jedis.setex(member.getUuid().toString(), 300, gson.toJson(member));
-                }
 
                 event.reply("Você cadastrou " + member.getName() + " com sucesso (UUID: " + member.getUuid() + ").").setEphemeral(true).queue();
 
@@ -152,29 +139,7 @@ public class CommandController extends ListenerAdapter {
 
                 BotApplication.getMqtt().publish(topic, payload.getBytes(), 0, false);
 
-                try (Jedis jedis = BotApplication.getRedis().getJedisPool().getResource()) {
-                    jedis.setex("last-command", 300, command);
-                }
-
                 event.reply("Você publicou a mensagem " + gson.toJson(payload) + " no tópico " + topic + " (MQTT URI: " + BotApplication.getMqtt().getServerUri() + ").").queue();
-
-                break;
-            }
-
-            case "ultima": {
-
-                if (event.getMember() == null)
-                    return;
-
-                try (Jedis jedis = BotApplication.getRedis().getJedisPool().getResource()) {
-
-                    if (jedis.get("last-command") == null) {
-                        event.reply("Não foi executado nenhum comando pelo bot pelos últimos 5 minutos.").queue();
-                        return;
-                    }
-
-                    event.reply("O último comando executado foi '/" + jedis.get("last-command") + "'.").queue();
-                }
 
                 break;
             }
@@ -187,8 +152,6 @@ public class CommandController extends ListenerAdapter {
 
         dataStore.add(Commands.slash("version", "Visualiza a versão atual do BOT."));
         dataStore.add(Commands.slash("horários", "Visualiza os horários do LAR disponíveis para uso."));
-        dataStore.add(Commands.slash("carros", "Visualiza os carros salvos no banco de dados."));
-        dataStore.add(Commands.slash("ultima", "Visualiza o último comando executado num período de 5 minutos."));
 
         OptionData arg1 = new OptionData(OptionType.STRING, "nome", "Nome de quem você deseja cadastrar", true);
         OptionData arg2 = new OptionData(OptionType.STRING, "rfid", "ID RFiD de quem você deseja cadastrar", true);
