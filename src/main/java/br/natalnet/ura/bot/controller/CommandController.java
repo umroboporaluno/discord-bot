@@ -1,8 +1,6 @@
 package br.natalnet.ura.bot.controller;
 
 import br.natalnet.ura.bot.BotApplication;
-import br.natalnet.ura.bot.database.MQTT;
-import br.natalnet.ura.bot.entity.door.Member;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import net.dv8tion.jda.api.Permission;
@@ -30,11 +28,6 @@ public class CommandController extends ListenerAdapter {
         String command = event.getName();
 
         switch (command) {
-
-            case "version": {
-                event.reply("O bot está utilizando a versão 5.2.1 (prod-master-luissssmartins-ebf195s)").queue();
-                break;
-            }
 
             case "horários": {
 
@@ -64,7 +57,7 @@ public class CommandController extends ListenerAdapter {
 
                 msgs = option.getAsInt();
 
-                if (msgs > 200) {
+                if (msgs >= 200) {
                     event.reply("O limite máximo é de 199 mensagens!").setEphemeral(true).queue();
                     return;
                 }
@@ -78,40 +71,40 @@ public class CommandController extends ListenerAdapter {
                 break;
             }
 
-            case "cadastrar": {
-
-                OptionMapping option = event.getOption("nome");
-
-                String name, rfid;
-
-                MQTT mqtt = BotApplication.getMqtt();
-
-                if (option == null) {
-                    event.reply("Nome inválido").setEphemeral(true).queue();
-                    return;
-                }
-
-                name = option.getAsString();
-
-                option = event.getOption("rfid");
-
-                if (option == null) {
-                    event.reply("RFiD inválido").setEphemeral(true).queue();
-                    return;
-                }
-
-                rfid = option.getAsString();
-
-                Member member = new Member(UUID.randomUUID(), name, rfid);
-
-                String toSend = member.getName() + ";" + member.getRfid();
-
-                mqtt.publish("door/cadastro", toSend.getBytes(), 0, false);
-
-                event.reply("Você cadastrou " + member.getName() + " com sucesso (UUID: " + member.getUuid() + ").").setEphemeral(true).queue();
-
-                break;
-            }
+//            case "cadastrar": {
+//
+//                OptionMapping option = event.getOption("nome");
+//
+//                String name, rfid;
+//
+//                MQTT mqtt = BotApplication.getMqtt();
+//
+//                if (option == null) {
+//                    event.reply("Nome inválido").setEphemeral(true).queue();
+//                    return;
+//                }
+//
+//                name = option.getAsString();
+//
+//                option = event.getOption("rfid");
+//
+//                if (option == null) {
+//                    event.reply("RFiD inválido").setEphemeral(true).queue();
+//                    return;
+//                }
+//
+//                rfid = option.getAsString();
+//
+//                Member member = new Member(UUID.randomUUID(), name, rfid);
+//
+//                String toSend = member.getName() + ";" + member.getRfid();
+//
+//                mqtt.publish("door/cadastro", toSend.getBytes(), 0, false);
+//
+//                event.reply("Você cadastrou " + member.getName() + " com sucesso (UUID: " + member.getUuid() + ").").setEphemeral(true).queue();
+//
+//                break;
+//            }
 
             case "publish": {
 
@@ -150,16 +143,16 @@ public class CommandController extends ListenerAdapter {
     public void onGuildReady(GuildReadyEvent event) {
         List<CommandData> dataStore = new ArrayList<>();
 
-        dataStore.add(Commands.slash("version", "Visualiza a versão atual do BOT."));
+        //dataStore.add(Commands.slash("version", "Visualiza a versão atual do BOT."));
         dataStore.add(Commands.slash("horários", "Visualiza os horários do LAR disponíveis para uso."));
 
-        OptionData arg1 = new OptionData(OptionType.STRING, "nome", "Nome de quem você deseja cadastrar", true);
-        OptionData arg2 = new OptionData(OptionType.STRING, "rfid", "ID RFiD de quem você deseja cadastrar", true);
+        //OptionData arg1 = new OptionData(OptionType.STRING, "nome", "Nome de quem você deseja cadastrar", true);
+        //OptionData arg2 = new OptionData(OptionType.STRING, "rfid", "ID RFiD de quem você deseja cadastrar", true);
 
-        dataStore.add(Commands.slash("cadastrar", "Cadastre uma pessoa para acessar o LAR.").addOptions(arg1, arg2));
+        //dataStore.add(Commands.slash("cadastrar", "Cadastre uma pessoa para acessar o LAR.").addOptions(arg1, arg2));
 
-        arg1 = new OptionData(OptionType.STRING, "tópico",  "Tópico do MQTT que você deseja enviar.", true);
-        arg2 = new OptionData(OptionType.STRING, "payload", "Payload do MQTT que você deseja enviar.", true);
+        OptionData arg1 = new OptionData(OptionType.STRING, "tópico",  "Tópico do MQTT que você deseja enviar.", true);
+        OptionData arg2 = new OptionData(OptionType.STRING, "payload", "Payload do MQTT que você deseja enviar.", true);
 
         dataStore.add(Commands.slash("publish", "Envie mensagens para o MQTT do LAR.").addOptions(arg1, arg2));
 
