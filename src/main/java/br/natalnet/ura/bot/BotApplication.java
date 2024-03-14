@@ -48,10 +48,10 @@ public class BotApplication {
                 }
 
                 System.out.println(tick);
-
+                
             }
         };
 
-        timer.schedule(task, 1000);
+        timer.schedule(task, 1);
     }
 }
