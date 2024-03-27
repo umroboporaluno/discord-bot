@@ -71,41 +71,6 @@ public class CommandController extends ListenerAdapter {
                 break;
             }
 
-//            case "cadastrar": {
-//
-//                OptionMapping option = event.getOption("nome");
-//
-//                String name, rfid;
-//
-//                MQTT mqtt = BotApplication.getMqtt();
-//
-//                if (option == null) {
-//                    event.reply("Nome inválido").setEphemeral(true).queue();
-//                    return;
-//                }
-//
-//                name = option.getAsString();
-//
-//                option = event.getOption("rfid");
-//
-//                if (option == null) {
-//                    event.reply("RFiD inválido").setEphemeral(true).queue();
-//                    return;
-//                }
-//
-//                rfid = option.getAsString();
-//
-//                Member member = new Member(UUID.randomUUID(), name, rfid);
-//
-//                String toSend = member.getName() + ";" + member.getRfid();
-//
-//                mqtt.publish("door/cadastro", toSend.getBytes(), 0, false);
-//
-//                event.reply("Você cadastrou " + member.getName() + " com sucesso (UUID: " + member.getUuid() + ").").setEphemeral(true).queue();
-//
-//                break;
-//            }
-
             case "publish": {
 
                 OptionMapping option = event.getOption("tópico");
