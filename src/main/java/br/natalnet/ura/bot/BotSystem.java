@@ -6,6 +6,7 @@ import br.natalnet.ura.bot.event.MenuClickEvent;
 import br.natalnet.ura.bot.listener.CourseSelectEmbedMessageListener;
 import br.natalnet.ura.bot.listener.DoubtsEmbedMessageListener;
 import br.natalnet.ura.bot.listener.RulesEmbedMessageListener;
+import io.github.cdimascio.dotenv.Dotenv;
 import lombok.Getter;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
@@ -17,11 +18,13 @@ import net.dv8tion.jda.api.utils.cache.CacheFlag;
 @Getter
 public class BotSystem {
 
+    private final Dotenv dotenv = Dotenv.configure().directory("/root/bot/").load();
+
     private final ShardManager shardManager;
 
     private final DefaultShardManagerBuilder builder;
 
-    private final String token = "MTA3ODc3OTMzNzkzMjgxNjQ0Ng.G_VfE3.RwZ_golHvyhuvfQkJkbGFYQyAWs4y21JpwozkA";
+    private final String token = dotenv.get("DISCORD_TOKEN");
 
     private final long discordId = 630862350827782144L;
 
