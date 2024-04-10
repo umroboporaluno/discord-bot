@@ -32,7 +32,7 @@ public class BotApplication {
         system = new BotSystem();
         redis = new Redis();
 
-        mqtt = new MQTT("tcp://10.6.1.42:1883");
+        mqtt = new MQTT(system.getMqttAddress());
 
         Timer timer = new Timer();
 
