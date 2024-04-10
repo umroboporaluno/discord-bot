@@ -26,6 +26,8 @@ public class BotSystem {
 
     private final String token = dotenv.get("DISCORD_TOKEN");
 
+    private final String mqttAddress = dotenv.get("MQTT_ADDRESS");
+
     private final long discordId = 630862350827782144L;
 
     public BotSystem() {
