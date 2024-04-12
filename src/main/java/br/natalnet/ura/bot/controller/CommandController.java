@@ -1,8 +1,10 @@
 package br.natalnet.ura.bot.controller;
 
 import br.natalnet.ura.bot.BotApplication;
+import br.natalnet.ura.bot.message.WelcomeMessagePattern;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.events.guild.GuildReadyEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
@@ -34,6 +36,33 @@ public class CommandController extends ListenerAdapter {
                 File file = new File(File.separator + System.getProperty("user.home") + File.separator + "bot" + File.separator, "horarios.jpeg");
 
                 event.replyFiles(AttachedFile.fromData(file)).queue();
+
+                break;
+            }
+
+            case "bemvindo": {
+
+                if (event.getMember() == null)
+                    return;
+
+                if (!event.getMember().getPermissions().contains(Permission.ADMINISTRATOR)) {
+                    event.reply("Você não tem permissão para fazer isso.").setEphemeral(true).queue();
+                }
+
+                OptionMapping option = event.getOption("curso");
+
+                if (option == null) {
+                    event.reply("Você precisa inserir um curso para executar este comando!").setEphemeral(true).queue();
+                    return;
+                }
+
+                WelcomeMessagePattern pattern = WelcomeMessagePattern.valueOf(option.getAsString().toUpperCase());
+
+                EmbedBuilder builder = new EmbedBuilder().setAuthor(pattern.getTitle())
+                        .setDescription(pattern.getSubtitle())
+                        .setFooter("Ficamos felizes com sua participação no curso de robótica!");
+
+                event.getMessageChannel().sendMessageEmbeds(builder.build()).queue();
 
                 break;
             }
@@ -108,13 +137,7 @@ public class CommandController extends ListenerAdapter {
     public void onGuildReady(GuildReadyEvent event) {
         List<CommandData> dataStore = new ArrayList<>();
 
-        //dataStore.add(Commands.slash("version", "Visualiza a versão atual do BOT."));
         dataStore.add(Commands.slash("horários", "Visualiza os horários do LAR disponíveis para uso."));
-
-        //OptionData arg1 = new OptionData(OptionType.STRING, "nome", "Nome de quem você deseja cadastrar", true);
-        //OptionData arg2 = new OptionData(OptionType.STRING, "rfid", "ID RFiD de quem você deseja cadastrar", true);
-
-        //dataStore.add(Commands.slash("cadastrar", "Cadastre uma pessoa para acessar o LAR.").addOptions(arg1, arg2));
 
         OptionData arg1 = new OptionData(OptionType.STRING, "tópico",  "Tópico do MQTT que você deseja enviar.", true);
         OptionData arg2 = new OptionData(OptionType.STRING, "payload", "Payload do MQTT que você deseja enviar.", true);
@@ -124,6 +147,10 @@ public class CommandController extends ListenerAdapter {
         arg1 = new OptionData(OptionType.INTEGER, "quantidade", "Defina a quantidade de mensagens que você quer apagar.", true);
 
         dataStore.add(Commands.slash("clear", "Apague um número determinado de mensagens em qualquer chat.").addOptions(arg1));
+
+        arg1 = new OptionData(OptionType.STRING, "curso", "Insira o curso que você deseja enviar a mensagem de boas-vindas.", true);
+
+        dataStore.add(Commands.slash("bemvindo", "Envie uma mensagem de boas vindas para os membros do curso.").addOptions(arg1));
 
         event.getGuild().updateCommands().addCommands(dataStore).queue();
     }
