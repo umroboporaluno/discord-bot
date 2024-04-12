@@ -56,7 +56,12 @@ public class CommandController extends ListenerAdapter {
                     return;
                 }
 
-                WelcomeMessagePattern pattern = WelcomeMessagePattern.valueOf(option.getAsString().toUpperCase());
+                WelcomeMessagePattern pattern = WelcomeMessagePattern.getFromCourse(option.getAsString());
+
+                if (pattern == null) {
+                    event.reply("Você precisa inserir um curso válido para anunciar!").setEphemeral(true).queue();
+                    return;
+                }
 
                 EmbedBuilder builder = new EmbedBuilder().setAuthor(pattern.getTitle())
                         .setDescription(pattern.getSubtitle())
@@ -148,7 +153,7 @@ public class CommandController extends ListenerAdapter {
 
         dataStore.add(Commands.slash("clear", "Apague um número determinado de mensagens em qualquer chat.").addOptions(arg1));
 
-        arg1 = new OptionData(OptionType.STRING, "curso", "Insira o curso que você deseja enviar a mensagem de boas-vindas.", true);
+        arg1 = new OptionData(OptionType.STRING, "curso", "Insira o curso que você deseja enviar a mensagem de boas-vindas.", true, true);
 
         dataStore.add(Commands.slash("bemvindo", "Envie uma mensagem de boas vindas para os membros do curso.").addOptions(arg1));
 
