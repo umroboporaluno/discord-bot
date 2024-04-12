@@ -7,9 +7,9 @@ import java.util.Arrays;
 @Getter
 public enum WelcomeMessagePattern {
 
-    GRADUANDOS(":robot: - **Graduandos**", ":alarm_clock: Horário: **18:35 até às 20:30** \n:calendar: Início das aulas: **12/04/2024** \n:round_pushpin: Local: **Laboratório 1 ECT, 2 piso**"),
-    PROFESSORES(":robot: - **Ensino Médio**", ":alarm_clock: Horário: **8:30 até às 11:30** \n:calendar: Início das aulas: **13/04/2024** \n:round_pushpin: Local: **Laboratório 1 ECT, 2 piso**"),
-    ENSINO_MEDIO("", "");
+    GRADUANDOS("\uD83E\uDD16 - Graduandos", "⏰ Horário: **18:35 até às 20:30** \n\uD83D\uDDD3\uFE0F Início das aulas: **12/04/2024** \n\uD83D\uDCCD Local: **Laboratório 1 ECT, 2 piso**"),
+    PROFESSORES("\uD83E\uDD16 - Ensino Médio", "⏰ Horário: **8:30 até às 11:30** \n\uD83D\uDDD3\uFE0F Início das aulas: **13/04/2024** \n\uD83D\uDCCD Local: **Laboratório 1 ECT, 2 piso**"),
+    ENSINO_MEDIO("\uD83E\uDD16 - Professores", "");
 
     private final String title, subtitle;
 
