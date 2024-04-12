@@ -2,6 +2,8 @@ package br.natalnet.ura.bot.message;
 
 import lombok.Getter;
 
+import java.util.Arrays;
+
 @Getter
 public enum WelcomeMessagePattern {
 
@@ -14,5 +16,9 @@ public enum WelcomeMessagePattern {
     WelcomeMessagePattern(String title, String subtitle) {
         this.title = title;
         this.subtitle = subtitle;
+    }
+
+    public static WelcomeMessagePattern getFromCourse(String name) {
+        return Arrays.stream(values()).filter(course -> course.name().equals(name)).findFirst().orElse(null);
     }
 }
